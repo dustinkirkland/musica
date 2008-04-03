@@ -40,6 +40,7 @@ $misc = sanity_check($_REQUEST["misc"]);
 $playlist = sanity_check($_REQUEST["playlist"]);
 $download_album = sanity_check($_REQUEST["download_album"]);
 $search = sanity_check($_REQUEST["search"]);
+$rating = sanity_check($_REQUEST["rating"]);
 $user = sanity_check($_SERVER["PHP_AUTH_USER"]);
 $pw = sanity_check($_SERVER["PHP_AUTH_PW"]);
 
@@ -150,7 +151,49 @@ function get_albums_by_artist($artist) {
 			closedir($dir);
 		}
 	}
+	sort($albums);
 	return $albums;
+}
+
+function get_all_ratings() {
+	$file = "music/.ratings";
+	if (file_exists($file)) {
+		$lines = file($file);
+	}
+	$ratings = array();
+	foreach ($lines as $line) {
+		list($a, $r) = preg_split("/\t/", $line);
+		$r = preg_replace("/\s+/", "", $r);
+		$ratings["$a"] = $r;
+	}
+	return $ratings;
+}
+
+function get_rating($artist) {
+	$ratings = get_all_ratings();
+	$str = "";
+	for ($i=0; $i<=5; $i++) {
+		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . ">$i</a> ";
+	}
+	$r = $ratings["$artist"];
+	if (isset($r)) {
+		$str = preg_replace("/>$r</" , "><b><u><big>$r</big></u></b><", $str);
+	}
+	return $str;
+}
+
+function set_rating($artist, $rating) {
+	if ($rating>=0 && $rating<=5) {
+		$ratings = get_all_ratings();
+		$ratings["$artist"] = $rating;
+		$artists = array_keys($ratings);
+		sort($artists);
+		$fp = fopen("music/.ratings", "w");
+		foreach ($artists as $a) {
+			fprintf($fp, "%s\t%s\n", $a, $ratings["$a"]);
+		}
+		fclose($fp);
+	}
 }
 
 function get_songs_by_album($artist, $album="") {
@@ -304,12 +347,17 @@ function print_artists($search="") {
 }
 
 function print_albums_by_artist($artist) {
+	global $rating;
+	if (is_numeric($rating)) {
+		set_rating($artist, $rating);
+	}
 	$albums = get_albums_by_artist($artist);
 	print("<p align=center><img src=group.png>&nbsp;<big><b>$artist</b></big><br>");
 	$wiki = preg_replace("/\s*\(.*/", "", $artist);
 	$wiki = urlencode($wiki);
 	$wiki = preg_replace("/\+/", "_", $wiki);
-	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> wikipedia</a></p><ol>");
+	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> wikipedia</a><br>");
+	print("<sub>[" . get_rating($artist) . "]</sub></p><ol>");
 	$loadmisc = 0;
 	for ($i=0; $i<sizeof($albums); $i++) {
 		list($artist, $album) = preg_split("/\//", $albums[$i]);
