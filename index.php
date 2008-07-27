@@ -74,7 +74,7 @@ body {font-size: 13px; font-family: verdana,arial,helvetica,sans-serif; font-wei
 
 function get_all_artists($search="") {
 	$artists = array();
-	if ($dir = opendir("music")) {
+	if ($dir = @opendir("music")) {
 		while (($artist = readdir($dir)) !== false) {
 			if (is_dir("music/$artist") && visible($artist)) {
 				if (!$search || preg_match("/$search/i", $artist)) {
@@ -82,6 +82,8 @@ function get_all_artists($search="") {
 				}
 			}
 		}
+	} else {
+		print("No music found.<br><br>Create a symlink to your music folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/music</pre>");
 	}
 	sort($artists);
 	return $artists;
