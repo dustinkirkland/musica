@@ -1,0 +1,5 @@
+etc/musica
+usr/share/musica
+var/lib/musica
+var/lib/musica/music
+var/lib/musica/tmp

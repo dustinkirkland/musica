@@ -1,0 +1,18 @@
+Source: musica
+Section: web
+Priority: optional
+Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
+XSBC-Original-Maintainer: Dustin Kirkland <dustin.kirkland@gmail.com>
+Standards-Version: 3.7.3
+Build-Depends: debhelper (>= 6.0)
+Homepage: http://launchpad.net/musica
+
+Package: musica
+Architecture: all
+Depends: debconf (>= 0.5) | debconf-2.0, apache2 | httpd, libapache2-mod-php5,  wwwconfig-common (>= 0.0.37)
+Description: a web application for browsing and listening to your music
+ Musica is a web application for browsing and listening to your music. Songs
+ are organized hierarchically in folders of Artists, and sub-folders of Albums.
+ The PHP script presents an interface for navigating among artists and albums.
+ It dynamically generates playlists, allows for downloading single songs,
+ entire albums, and links to Wikipedia articles on artists and albums.

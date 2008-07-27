@@ -1,0 +1,9 @@
+book_open.png usr/share/musica
+cd.png usr/share/musica
+control_play_blue.png usr/share/musica
+disk.png usr/share/musica
+group.png usr/share/musica
+index.php usr/share/musica
+music.png usr/share/musica
+debian/apache.conf  etc/musica
+debian/templates  etc/musica

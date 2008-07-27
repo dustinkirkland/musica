@@ -1,0 +1,51 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+#
+# debian/rules makefile for limesurvey
+
+# Uncomment this to turn on verbose mode.
+# export DH_VERBOSE=1
+
+PACKAGE=musica
+
+build:  patch
+
+clean-patched:
+	dh_testdir
+	dh_testroot
+	dh_clean
+
+clean:	clean-patched unpatch
+
+install:build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs -X.bzr
+	dh_install -X.bzr
+	# fix owners
+	chown www-data:www-data debian/musica/var/lib/musica/tmp
+
+# Everything else is handled by dh_install
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installdocs -X.bzr
+	dh_installchangelogs docs/release_notes_and_upgrade_instructions.txt
+	dh_installdebconf
+	dh_compress
+	dh_fixperms
+	# fix owners and permissions
+	chown www-data:www-data debian/musica/var/lib/musica/tmp
+	dh_installdeb
+	dh_gencontrol
+	dh_builddeb
+
+binary: binary-indep
+.PHONY: build clean binary-indep binary install patch unpatch
+
+binary-arch:
