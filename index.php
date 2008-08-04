@@ -1,5 +1,9 @@
 <?php
 
+if (file_exists("/etc/musica/config.php")) {
+	include("/etc/musica/config.php");
+}
+
 function sanity_check($string) {
 	$string = urldecode($string);
 	$string = stripslashes($string);
