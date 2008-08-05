@@ -13,6 +13,7 @@ PACKAGE=musica
 build:
 
 clean:
+	rm -rf debian/musica
 
 install:build
 	dh_testdir
