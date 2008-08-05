@@ -9,7 +9,7 @@ Homepage: http://launchpad.net/musica
 
 Package: musica
 Architecture: all
-Depends: debconf (>= 0.5) | debconf-2.0, apache2, libapache2-mod-php5,  wwwconfig-common (>= 0.0.37)
+Depends: debconf (>= 0.5) | debconf-2.0, apache2, libapache2-mod-php5
 Description: a web application for browsing and listening to your music
  Musica is a web application for browsing and listening to your music. Songs
  are organized hierarchically in folders of Artists, and sub-folders of Albums.
