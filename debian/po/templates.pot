@@ -1,5 +1,0 @@
-# Musica
-# Copyright (C) 2000-2008
-# This file is distributed under the same license as the musica package.
-# Dustin Kirkland <dustin.kirkland@gmail.com>
-
