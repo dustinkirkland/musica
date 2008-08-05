@@ -10,14 +10,9 @@
 
 PACKAGE=musica
 
-build:  patch
+build:
 
-clean-patched:
-	dh_testdir
-	dh_testroot
-	dh_clean
-
-clean:	clean-patched unpatch
+clean:
 
 install:build
 	dh_testdir
@@ -46,6 +41,6 @@ binary-indep: build install
 	dh_builddeb
 
 binary: binary-indep
-.PHONY: build clean binary-indep binary install patch unpatch
+.PHONY: build clean binary-indep binary install
 
 binary-arch:
