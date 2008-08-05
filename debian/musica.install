@@ -6,4 +6,3 @@ group.png usr/share/musica
 index.php usr/share/musica
 music.png usr/share/musica
 debian/apache.conf  etc/musica
-debian/templates  etc/musica
