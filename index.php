@@ -148,7 +148,7 @@ function get_all_songs($search="", $rating=0) {
 function get_albums_by_artist($artist) {
 	$albums = array();
 	if (is_dir("music/$artist")) {
-		if ($dir = opendir("music/$artist")) {
+		if ($dir = @opendir("music/$artist")) {
 			while (($album = readdir($dir)) !== false){
 				if (is_dir("music/$artist/$album") && visible($artist) && visible($album)) {
 					array_push($albums, "$artist/$album");
@@ -164,7 +164,7 @@ function get_albums_by_artist($artist) {
 function get_all_ratings() {
 	$file = "music/.ratings";
 	if (file_exists($file)) {
-		$lines = file($file);
+		$lines = @file($file);
 	}
 	$ratings = array();
 	foreach ($lines as $line) {
@@ -205,7 +205,7 @@ function set_rating($artist, $rating) {
 function get_songs_by_album($artist, $album="") {
 	$songs = array();
 	if (is_dir("music/$artist/$album")) {
-		if ($dir = opendir("music/$artist/$album")) {
+		if ($dir = @opendir("music/$artist/$album")) {
 			while (($song = readdir($dir)) !== false){
 				if (preg_match("/\.mp3$/i", "music/$artist/$album/$song") && visible($artist) && visible($album) && visible($song)) {
 					array_push($songs, "$artist/$album/$song");
@@ -278,7 +278,7 @@ function get_artist_ratings() {
 	$ratings = array();
 	for ($i=0; $i<sizeof($artists); $i++) {
 		$r = "";
-		list($r) = file("music/$artists[$i]/.rating");
+		list($r) = @file("music/$artists[$i]/.rating");
 		if (!$r) { $r = 2; }	
 		$ratings["$artists[$i]"] = $r;
 	}
