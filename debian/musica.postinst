@@ -49,7 +49,7 @@ case "$1" in
 				restart="$i $restart"
 			fi
 		done
-		servers="apache apache-ssl apache-perl apache2"
+		servers="apache2"
 		. /usr/share/wwwconfig-common/restart.sh
 		# Permissions
 		#dpkg-statoverride --list $filesdir || dpkg-statoverride --add --force --update root www-data 0770 $filesdir
