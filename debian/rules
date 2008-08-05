@@ -13,7 +13,7 @@ PACKAGE=musica
 build:
 
 clean:
-	rm -rf debian/musica debian/files
+	rm -rf debian/musica debian/files debian/musica.debhelper.log
 
 install:build
 	dh_testdir
