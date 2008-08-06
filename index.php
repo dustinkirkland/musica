@@ -87,7 +87,8 @@ function get_all_artists($search="") {
 			}
 		}
 	} else {
-		print("No music found.<br><br>Create a symlink to your music folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/music</pre>");
+		print("<b>ERROR</b><br>No music found.<br><br>Create a symlink to your music folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/music</pre>");
+		exit;
 	}
 	sort($artists);
 	return $artists;
@@ -111,7 +112,7 @@ function get_all_albums($search="") {
 
 function get_all_songs($search="", $rating=0) {
 	if ($rating) {
-		$ratings = get_artist_ratings();
+		$ratings = get_all_ratings();
 		$artists = array_keys($ratings);
 	} else {
 		$artists = get_all_artists();
@@ -163,10 +164,12 @@ function get_albums_by_artist($artist) {
 
 function get_all_ratings() {
 	$file = "music/.ratings";
+	$ratings = array();
 	if (file_exists($file)) {
 		$lines = @file($file);
+	} else {
+		return $ratings;
 	}
-	$ratings = array();
 	foreach ($lines as $line) {
 		list($a, $r) = preg_split("/\t/", $line);
 		$r = preg_replace("/\s+/", "", $r);
@@ -177,13 +180,16 @@ function get_all_ratings() {
 
 function get_rating($artist) {
 	$ratings = get_all_ratings();
-	$str = "";
-	for ($i=0; $i<=5; $i++) {
-		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . ">$i</a> ";
-	}
 	$r = $ratings["$artist"];
-	if (isset($r)) {
-		$str = preg_replace("/>$r</" , "><b><u><big>$r</big></u></b><", $str);
+	if (!isset($r)) {
+		$r = 0;
+	}
+	$str = "";
+	for ($i=1; $i<=$r; $i++) {
+		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . "><img border=0 src=star_on.png></a> ";
+	}
+	for ($i=$r+1; $i<=5; $i++) {
+		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . "><img border=0 src=star_off.png></a> ";
 	}
 	return $str;
 }
@@ -194,7 +200,11 @@ function set_rating($artist, $rating) {
 		$ratings["$artist"] = $rating;
 		$artists = array_keys($ratings);
 		sort($artists);
-		$fp = fopen("music/.ratings", "w");
+		$fp = @fopen("music/.ratings", "w");
+		if (!$fp) {
+			print("<b>ERROR</b><br>Incorrect permissions on .ratings<p>To use this feature, the file<br><pre>  " . $_SERVER["DOCUMENT_ROOT"] . "/music/.ratings</pre>must be readable and writeable by the user<pre>  ". $_ENV["APACHE_RUN_USER"] . "</pre></p>");
+			exit;
+		}
 		foreach ($artists as $a) {
 			fprintf($fp, "%s\t%s\n", $a, $ratings["$a"]);
 		}
@@ -274,13 +284,11 @@ function get_counts() {
 }
 
 function get_artist_ratings() {
-	$artists = get_all_artists();
 	$ratings = array();
-	for ($i=0; $i<sizeof($artists); $i++) {
-		$r = "";
-		list($r) = @file("music/$artists[$i]/.rating");
-		if (!$r) { $r = 2; }	
-		$ratings["$artists[$i]"] = $r;
+	list($r) = @file("music/.ratings");
+	for ($i=0; $i<sizeof($r); $i++) {
+		list($artist, $rating) = preg_split("/\t/", $r, 2);
+		$ratings[$artist] = $rating;
 	}
 	return $ratings;
 }
@@ -342,14 +350,25 @@ function print_artists($search="") {
 	for ($i=0; $i<sizeof($artists); $i++) {
 		print_artist($artists[$i]);
 	}
-	$complete = 1;
-	$popular  = 4;
 	print("
-			</ol>
-			<p align=right>(very big) <a href=?playlist=$complete target=_songs>Complete Playlist</a><br>
-			<a href=?playlist=$popular target=_songs>Popular Playlist</a><br>
-			<a href=?artist=_random target=_albums>Random Artist</a></p>
+		</ol>
+		<hr>
+		<ul>
+		  <li><a href=?artist=_random target=_albums>Random Artist</a></li>
+		  <li>Playlist of all songs with artist rating</li>
+		  <ul>
 	");
+	for ($i=5; $i>=1; $i--) {
+		print("<li><a href=?playlist=$i target=_songs>");
+		for ($j=1; $j<=$i; $j++) {
+			print("<img border=0 src=star_on.png>");
+		}
+		for ($j=$i+1; $j<=5; $j++) {
+			print("<img border=0 src=star_off.png>");
+		}
+		print("</a></li>");
+	}
+	print("</ul></ul>");
 }
 
 function print_albums_by_artist($artist) {
@@ -362,8 +381,8 @@ function print_albums_by_artist($artist) {
 	$wiki = preg_replace("/\s*\(.*/", "", $artist);
 	$wiki = urlencode($wiki);
 	$wiki = preg_replace("/\+/", "_", $wiki);
-	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> wikipedia</a><br>");
-	print("<sub>[" . get_rating($artist) . "]</sub></p><ol>");
+	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> Wikipedia</a><br>");
+	print( get_rating($artist) . "</p><ol>");
 	$loadmisc = 0;
 	for ($i=0; $i<sizeof($albums); $i++) {
 		list($artist, $album) = preg_split("/\//", $albums[$i]);
@@ -393,7 +412,7 @@ function print_songs_by_album($artist, $album) {
 	$wiki = preg_replace("/\s*\(.*/", "", $album);
 	$wiki = urlencode($wiki);
 	$wiki = preg_replace("/\+/", "_", $wiki);
-	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> wikipedia</a><br></p>");
+	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> Wikipedia</a><br></p>");
 	$songs = get_songs_by_album($artist, $album);
 	for ($i=0; $i<sizeof($songs); $i++) {
 		list($artist, $album, $song) = preg_split("/\//", $songs[$i]);
@@ -599,7 +618,7 @@ if ($playlist && !$artist && !$album) {
 	fclose($fp);
 	print("
 <body topmargin=0 leftmargin=0 bottommargin=0 rightmargin=0>
-<a href=$tempfile>Download the Complete Playlist</a>
+<a href=$tempfile><img border=0 src=disk.png> Download the Complete Playlist</a>
 </body></html>
 	");
 	exit;
