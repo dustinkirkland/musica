@@ -381,7 +381,7 @@ function print_albums_by_artist($artist) {
 	$wiki = preg_replace("/\s*\(.*/", "", $artist);
 	$wiki = urlencode($wiki);
 	$wiki = preg_replace("/\+/", "_", $wiki);
-	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> wikipedia</a><br>");
+	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> Wikipedia</a><br>");
 	print( get_rating($artist) . "</p><ol>");
 	$loadmisc = 0;
 	for ($i=0; $i<sizeof($albums); $i++) {
@@ -412,7 +412,7 @@ function print_songs_by_album($artist, $album) {
 	$wiki = preg_replace("/\s*\(.*/", "", $album);
 	$wiki = urlencode($wiki);
 	$wiki = preg_replace("/\+/", "_", $wiki);
-	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> wikipedia</a><br></p>");
+	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> Wikipedia</a><br></p>");
 	$songs = get_songs_by_album($artist, $album);
 	for ($i=0; $i<sizeof($songs); $i++) {
 		list($artist, $album, $song) = preg_split("/\//", $songs[$i]);
@@ -618,7 +618,7 @@ if ($playlist && !$artist && !$album) {
 	fclose($fp);
 	print("
 <body topmargin=0 leftmargin=0 bottommargin=0 rightmargin=0>
-<a href=$tempfile>Download the Complete Playlist</a>
+<a href=$tempfile><img border=0 src=disk.png> Download the Complete Playlist</a>
 </body></html>
 	");
 	exit;
