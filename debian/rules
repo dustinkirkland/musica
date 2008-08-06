@@ -3,21 +3,17 @@
 # Sample debian/rules that uses debhelper.
 # GNU copyright 1997 to 1999 by Joey Hess.
 #
-# debian/rules makefile for limesurvey
+# debian/rules makefile for musica
 
 # Uncomment this to turn on verbose mode.
 # export DH_VERBOSE=1
 
 PACKAGE=musica
 
-build:  patch
+build:
 
-clean-patched:
-	dh_testdir
-	dh_testroot
-	dh_clean
-
-clean:	clean-patched unpatch
+clean:
+	rm -rf debian/musica debian/files debian/musica.debhelper.log
 
 install:build
 	dh_testdir
@@ -35,7 +31,7 @@ binary-indep: build install
 	dh_testdir
 	dh_testroot
 	dh_installdocs -X.bzr
-	dh_installchangelogs docs/release_notes_and_upgrade_instructions.txt
+	dh_installchangelogs docs/readme.txt
 	dh_installdebconf
 	dh_compress
 	dh_fixperms
@@ -46,6 +42,6 @@ binary-indep: build install
 	dh_builddeb
 
 binary: binary-indep
-.PHONY: build clean binary-indep binary install patch unpatch
+.PHONY: build clean binary-indep binary install
 
 binary-arch:

@@ -1,0 +1,32 @@
+SUMMARY
+
+Musica
+by Dustin Kirkland <dustin.kirkland@gmail.com>
+
+Musica is a web application for browsing and listening to your music.
+Songs are organized hierarchically in folders of Artists, and sub-folders
+of Albums. The PHP script presents an interface for navigating among
+artists and albums. It dynamically generates playlists, allows for
+downloading single songs, entire albums, and links to Wikipedia articles
+on artists and albums.
+
+
+RELEASE NOTES
+
+/var/lib/musica/music should be a symbolic link to a folder containing
+your music.
+
+The music directory should contain one directory per artist.
+
+Each artist directory should contain one directory per album, and optionally
+miscellaneous songs (mp3's) by that artist.
+
+Each album directory should contain songs (mp3's).
+
+Musica uses this rigid directory structure such that it does not require
+a relational database.
+
+
+HISTORY
+For a complete changelog/history, see the source repository:
+ * http://bazaar.launchpad.net/~kirkland/musica/main/changes

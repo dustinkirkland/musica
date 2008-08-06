@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for limesurvey
+# postinst script for musica
 #
 # see: dh_installdeb(1)
 
@@ -31,29 +31,19 @@ docdir="/usr/share/doc/${package_name}"
 upgradesdir="${docdir}/upgrades"
 configdir="/etc/musica"
 includefile="${configdir}/apache.conf"
+webserver="apache2"
 
 OLDVERSION="$2"
 
 case "$1" in
 	configure)
-		# Get Debconf variables
-		db_get ${package_name}/webserver || true
-		webserver="$RET"
-		webserver=`echo $webserver|sed -e 's/,  */ /g'`
-		for i in $webserver; do
-			if [ ! -d /etc/$i/conf.d/ ]; then
-				install -d -m755 /etc/$i/conf.d/
-			fi
-			if [ ! -e /etc/$i/conf.d/${package_name}.conf ]; then
-				ln -s ${includefile} /etc/$i/conf.d/${package_name}.conf
-				restart="$i $restart"
-			fi
-		done
-		servers="apache apache-ssl apache-perl apache2"
-		. /usr/share/wwwconfig-common/restart.sh
-		# Permissions
-		#dpkg-statoverride --list $filesdir || dpkg-statoverride --add --force --update root www-data 0770 $filesdir
-		#dpkg-statoverride --list $pkgdir || dpkg-statoverride --add --force --update root www-data 0775 $pkgdir
+		if [ ! -d /etc/${webserver}/sites-enabled ]; then
+			install -d -m755 /etc/${webserver}/sites-enabled/
+		fi
+		if [ ! -e /etc/${webserver}/sites-enabled/${package_name} ]; then
+			ln -s ${includefile} /etc/${webserver}/sites-enabled/${package_name}
+			/etc/init.d/${webserver} reload
+		fi
 	;;
 	abort-upgrade|abort-remove|abort-deconfigure)
 	;;
