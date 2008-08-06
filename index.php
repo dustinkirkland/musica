@@ -180,13 +180,16 @@ function get_all_ratings() {
 
 function get_rating($artist) {
 	$ratings = get_all_ratings();
-	$str = "";
-	for ($i=1; $i<=5; $i++) {
-		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . ">$i</a> ";
-	}
 	$r = $ratings["$artist"];
-	if (isset($r)) {
-		$str = preg_replace("/>$r</" , "><b><u><big>$r</big></u></b><", $str);
+	if (!isset($r)) {
+		$r = 0;
+	}
+	$str = "";
+	for ($i=1; $i<=$r; $i++) {
+		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . "><img border=0 src=star_on.png></a> ";
+	}
+	for ($i=$r+1; $i<=5; $i++) {
+		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . "><img border=0 src=star_off.png></a> ";
 	}
 	return $str;
 }
@@ -355,8 +358,15 @@ function print_artists($search="") {
 		  <li>Playlist of all songs with artist rating</li>
 		  <ul>
 	");
-	for ($i=1; $i<=5; $i++) {
-		print("<li><a href=?playlist=$i target=_songs>&gt;= $i</a></li>");
+	for ($i=5; $i>=1; $i--) {
+		print("<li><a href=?playlist=$i target=_songs>");
+		for ($j=1; $j<=$i; $j++) {
+			print("<img border=0 src=star_on.png>");
+		}
+		for ($j=$i+1; $j<=5; $j++) {
+			print("<img border=0 src=star_off.png>");
+		}
+		print("</a></li>");
 	}
 	print("</ul></ul>");
 }
@@ -372,7 +382,7 @@ function print_albums_by_artist($artist) {
 	$wiki = urlencode($wiki);
 	$wiki = preg_replace("/\+/", "_", $wiki);
 	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> wikipedia</a><br>");
-	print("<sub>[" . get_rating($artist) . "]</sub></p><ol>");
+	print( get_rating($artist) . "</p><ol>");
 	$loadmisc = 0;
 	for ($i=0; $i<sizeof($albums); $i++) {
 		list($artist, $album) = preg_split("/\//", $albums[$i]);
