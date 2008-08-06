@@ -87,7 +87,8 @@ function get_all_artists($search="") {
 			}
 		}
 	} else {
-		print("No music found.<br><br>Create a symlink to your music folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/music</pre>");
+		print("<b>ERROR</b><br>No music found.<br><br>Create a symlink to your music folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/music</pre>");
+		exit;
 	}
 	sort($artists);
 	return $artists;
@@ -111,7 +112,7 @@ function get_all_albums($search="") {
 
 function get_all_songs($search="", $rating=0) {
 	if ($rating) {
-		$ratings = get_artist_ratings();
+		$ratings = get_all_ratings();
 		$artists = array_keys($ratings);
 	} else {
 		$artists = get_all_artists();
@@ -163,10 +164,12 @@ function get_albums_by_artist($artist) {
 
 function get_all_ratings() {
 	$file = "music/.ratings";
+	$ratings = array();
 	if (file_exists($file)) {
 		$lines = @file($file);
+	} else {
+		return $ratings;
 	}
-	$ratings = array();
 	foreach ($lines as $line) {
 		list($a, $r) = preg_split("/\t/", $line);
 		$r = preg_replace("/\s+/", "", $r);
@@ -178,7 +181,7 @@ function get_all_ratings() {
 function get_rating($artist) {
 	$ratings = get_all_ratings();
 	$str = "";
-	for ($i=0; $i<=5; $i++) {
+	for ($i=1; $i<=5; $i++) {
 		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . ">$i</a> ";
 	}
 	$r = $ratings["$artist"];
@@ -194,7 +197,11 @@ function set_rating($artist, $rating) {
 		$ratings["$artist"] = $rating;
 		$artists = array_keys($ratings);
 		sort($artists);
-		$fp = fopen("music/.ratings", "w");
+		$fp = @fopen("music/.ratings", "w");
+		if (!$fp) {
+			print("<b>ERROR</b><br>Incorrect permissions on .ratings<p>To use this feature, the file<br><pre>  " . $_SERVER["DOCUMENT_ROOT"] . "/music/.ratings</pre>must be readable and writeable by the user<pre>  ". $_ENV["APACHE_RUN_USER"] . "</pre></p>");
+			exit;
+		}
 		foreach ($artists as $a) {
 			fprintf($fp, "%s\t%s\n", $a, $ratings["$a"]);
 		}
@@ -274,13 +281,11 @@ function get_counts() {
 }
 
 function get_artist_ratings() {
-	$artists = get_all_artists();
 	$ratings = array();
-	for ($i=0; $i<sizeof($artists); $i++) {
-		$r = "";
-		list($r) = @file("music/$artists[$i]/.rating");
-		if (!$r) { $r = 2; }	
-		$ratings["$artists[$i]"] = $r;
+	list($r) = @file("music/.ratings");
+	for ($i=0; $i<sizeof($r); $i++) {
+		list($artist, $rating) = preg_split("/\t/", $r, 2);
+		$ratings[$artist] = $rating;
 	}
 	return $ratings;
 }
@@ -342,14 +347,18 @@ function print_artists($search="") {
 	for ($i=0; $i<sizeof($artists); $i++) {
 		print_artist($artists[$i]);
 	}
-	$complete = 1;
-	$popular  = 4;
 	print("
-			</ol>
-			<p align=right>(very big) <a href=?playlist=$complete target=_songs>Complete Playlist</a><br>
-			<a href=?playlist=$popular target=_songs>Popular Playlist</a><br>
-			<a href=?artist=_random target=_albums>Random Artist</a></p>
+		</ol>
+		<hr>
+		<ul>
+		  <li><a href=?artist=_random target=_albums>Random Artist</a></li>
+		  <li>Playlist of all songs with artist rating</li>
+		  <ul>
 	");
+	for ($i=1; $i<=5; $i++) {
+		print("<li><a href=?playlist=$i target=_songs>&gt;= $i</a></li>");
+	}
+	print("</ul></ul>");
 }
 
 function print_albums_by_artist($artist) {
