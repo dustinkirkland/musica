@@ -1,49 +1,16 @@
 #!/bin/sh
 # postinst script for musica
-#
-# see: dh_installdeb(1)
 
 set -e
 
-# summary of how this script can be called:
-#        * <postinst> `configure' <most-recently-configured-version>
-#        * <old-postinst> `abort-upgrade' <new version>
-#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
-#          <new-version>
-#        * <postinst> `abort-remove'
-#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
-#          <failed-install-package> <version> `removing'
-#          <conflicting-package> <version>
-# for details, see http://www.debian.org/doc/debian-policy/ or
-# the debian-policy package
-
-. /usr/share/debconf/confmodule
-
-if [ "$DPKG_DEBUG" = "developer" ]; then
-    set -x
-fi
-
-package_name="musica"
-datadir="/var/lib/${package_name}"
-filesdir="${datadir}"
-pkgdir="/usr/share/${package_name}"
-docdir="/usr/share/doc/${package_name}"
-upgradesdir="${docdir}/upgrades"
-configdir="/etc/musica"
-includefile="${configdir}/apache.conf"
+package="musica"
 webserver="apache2"
-
-OLDVERSION="$2"
 
 case "$1" in
 	configure)
-		if [ ! -d /etc/${webserver}/sites-enabled ]; then
-			install -d -m755 /etc/${webserver}/sites-enabled/
-		fi
-		if [ ! -e /etc/${webserver}/sites-enabled/${package_name} ]; then
-			ln -s ${includefile} /etc/${webserver}/sites-enabled/${package_name}
-			/etc/init.d/${webserver} reload
-		fi
+		ln -sf /etc/$package/apache.conf /etc/$webserver/sites-available/$package
+		a2ensite $package
+		invoke-rc.d $webserver reload
 	;;
 	abort-upgrade|abort-remove|abort-deconfigure)
 	;;
@@ -59,5 +26,3 @@ esac
 #DEBHELPER#
 
 exit 0
-
-

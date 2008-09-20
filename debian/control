@@ -1,11 +1,11 @@
 Source: musica
 Section: web
 Priority: optional
-Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
-XSBC-Original-Maintainer: Dustin Kirkland <dustin.kirkland@gmail.com>
+Maintainer: Dustin Kirkland <kirkland@ubuntu.com>
 Standards-Version: 3.8.0
 Build-Depends: debhelper (>= 6.0)
 Homepage: http://launchpad.net/musica
+Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/musica/main
 
 Package: musica
 Architecture: all
