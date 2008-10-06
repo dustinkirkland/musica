@@ -26,6 +26,8 @@ Each album directory should contain songs (mp3's).
 Musica uses this rigid directory structure such that it does not require
 a relational database.
 
+Musica uses the Silk Icon Set under the CCA2.5 license, and are available at:
+ * http://www.famfamfam.com/lab/icons/silk/
 
 HISTORY
 For a complete changelog/history, see the source repository:
