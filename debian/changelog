@@ -1,3 +1,10 @@
+musica (1.2) intrepid; urgency=low
+
+  * debian/musica.install: actually install star_on.png and star_off.png
+    LP: #285134
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 17 Oct 2008 14:11:16 -0500
+
 musica (1.1) intrepid; urgency=low
 
   * index.php, debian/copyright, docs/LICENSE_CCA2.5, docs/LICENSE_GPL3,
