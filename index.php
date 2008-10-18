@@ -48,7 +48,7 @@ $rating = sanity_check($_REQUEST["rating"]);
 $user = sanity_check($_SERVER["PHP_AUTH_USER"]);
 $pw = sanity_check($_SERVER["PHP_AUTH_PW"]);
 
-$PREAMBLE = "http://" . $_SERVER["HTTP_HOST"] . "/music/";
+$PREAMBLE = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["SCRIPT_NAME"]) . "/music/";
 
 ?>
 

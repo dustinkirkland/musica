@@ -35,6 +35,7 @@ binary-indep: build install
 	dh_fixperms
 	# fix owners and permissions
 	chown www-data:www-data debian/musica/var/lib/musica/tmp
+	dh_link var/lib/musica/tmp usr/share/musica/tmp
 	dh_installdeb
 	dh_gencontrol
 	dh_builddeb

@@ -1,3 +1,13 @@
+musica (1.3) intrepid; urgency=low
+
+  * Fix a couple of minor issues to get musica working immediately on
+    installation (LP: #285322)
+  * index.php: must insert script name in url preamble
+  * debian/rules: link tmpdir into web share
+  * debian/apache.conf: tmp section no longer needed (using symlink)
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 18 Oct 2008 01:05:02 -0500
+
 musica (1.2) intrepid; urgency=low
 
   * debian/musica.install: actually install star_on.png and star_off.png
