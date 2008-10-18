@@ -202,7 +202,7 @@ function set_rating($artist, $rating) {
 		sort($artists);
 		$fp = @fopen("music/.ratings", "w");
 		if (!$fp) {
-			print("<b>ERROR</b><br>Incorrect permissions on .ratings<p>To use this feature, the file<br><pre>  " . $_SERVER["DOCUMENT_ROOT"] . "/music/.ratings</pre>must be readable and writeable by the user<pre>  ". $_ENV["APACHE_RUN_USER"] . "</pre></p>");
+			print("<b>ERROR</b><br>Incorrect permissions on .ratings<p>To use this feature, the file<br><pre>  " . dirname($_SERVER["SCRIPT_FILENAME"]) . "/music/.ratings</pre>must be readable and writeable by the user<pre>  ". $_ENV["APACHE_RUN_USER"] . "</pre></p>");
 			exit;
 		}
 		foreach ($artists as $a) {
