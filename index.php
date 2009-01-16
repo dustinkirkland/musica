@@ -1,5 +1,8 @@
 <?php
 
+/* A list of file formats we will recognize */
+$FORMATS = array("mp3", "ogg", "wav", "flac");
+
 if (file_exists("/etc/musica/config.php")) {
 	include("/etc/musica/config.php");
 }
@@ -31,6 +34,16 @@ function htmlformat($str) {
 	$replace = array("+", "%26", "%27");
 	$str = preg_replace($search, $replace, $str);
 	return $str;
+}
+
+function is_song($str) {
+	global $FORMATS;
+	foreach ($FORMATS as $ext) {
+		if (preg_match("/\.$ext$/i", $str)) {
+			return true;
+		}
+	}
+	return false;
 }
 
 
@@ -217,7 +230,7 @@ function get_songs_by_album($artist, $album="") {
 	if (is_dir("music/$artist/$album")) {
 		if ($dir = @opendir("music/$artist/$album")) {
 			while (($song = readdir($dir)) !== false){
-				if (preg_match("/\.mp3$/i", "music/$artist/$album/$song") && visible($artist) && visible($album) && visible($song)) {
+				if (is_song("music/$artist/$album/$song") && visible($artist) && visible($album) && visible($song)) {
 					array_push($songs, "$artist/$album/$song");
 				}
 			}
@@ -278,7 +291,7 @@ function get_counts() {
 	/* These shell commands are 7x faster than array counting in php */
 	$artists = `ls -F music/ | grep "/\$" | wc -l` + 0;
 	$albums = `ls -F music/*/ | grep "/\$" | wc -l` + 0; /* */
-	$songs = `find music/ -type f -iname "*.mp3" | wc -l` + 0;
+	$songs = `find music/ -type f -iname "*.mp3" -o -iname "*.ogg" -o -iname "*.wav" -o -iname "*.flac" | wc -l` + 0;
 	$counts = array($artists, $albums, $songs);
 	return $counts;
 }
@@ -330,10 +343,10 @@ function print_album($artist, $album) {
 
 function print_song($artist, $album, $song) {
 	global $PREAMBLE;
-	if (preg_match("/.mp3$/i", $song) && visible($artist) && visible($album) && visible($song)) {
+	if (is_song($song) && visible($artist) && visible($album) && visible($song)) {
 		$href = $PREAMBLE . urlencode($artist) . "/" . urlencode($album) . "/" . urlencode("$song");
 		$href = $line = preg_replace("/\+/", "%20", $href);
-		$track = preg_replace("/\.mp3$/", "", $song);
+		$track = preg_replace("/\.[^.]*$/", "", $song);
 		print("<a href=\"$href\"><img src=disk.png border=0></a><a href=\"?playlist=1&artist=$artist&album=$album&song=$song\">");
 		print("<img src=music.png border=0>&nbsp;$track</a><br>");
 	}

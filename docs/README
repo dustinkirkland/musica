@@ -19,9 +19,9 @@ your music.
 The music directory should contain one directory per artist.
 
 Each artist directory should contain one directory per album, and optionally
-miscellaneous songs (mp3's) by that artist.
+miscellaneous songs (mp3's and/or ogg's) by that artist.
 
-Each album directory should contain songs (mp3's).
+Each album directory should contain songs (mp3's and/or ogg's).
 
 Musica uses this rigid directory structure such that it does not require
 a relational database.
