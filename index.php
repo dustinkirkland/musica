@@ -1,5 +1,25 @@
 <?php
 
+/*
+
+    musica: web application for browsing and listening to your music
+    Copyright (C) 2000-2009 Dustin Kirkland <dustin.kirkland@gmail.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, version 3 of the
+    License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
 /* A list of file formats we will recognize */
 $FORMATS = array("mp3", "ogg", "wav", "flac");
 
@@ -555,7 +575,7 @@ if ($top) {
   </tr>
   <tr>
     <td colspan=3 align=center>
-      <small><small>Copyright &copy; 2000-2008 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>, the <a href=https://launchpad.net/musica target=_top>Musica Browser</a> is free code under <a href=http://www.gnu.org/licenses/gpl.txt target=_top>GPLv3</a>.  <a href=http://www.famfamfam.com/lab/icons/silk/ target=_top>Icons</a> are under <a href=http://creativecommons.org/licenses/by/2.5/ target=_top>CCA2.5</a>.</small></small>
+      <small><small>Copyright &copy; 2000-2008 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>, the <a href=https://launchpad.net/musica target=_top>Musica Browser</a> is free code under <a href=http://www.gnu.org/licenses/agpl-3.0.txt target=_top>GNU AGPL 3</a>.  <a href=http://www.famfamfam.com/lab/icons/silk/ target=_top>Icons</a> are under <a href=http://creativecommons.org/licenses/by/2.5/ target=_top>CCA2.5</a>.</small></small>
     </td>
   </tr>
 </table></body>");

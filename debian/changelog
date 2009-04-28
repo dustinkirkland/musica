@@ -1,3 +1,9 @@
+musica (1.5) karmic; urgency=low
+
+  * index.php, debian/copyright: re-license under Affero Public License
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 28 Apr 2009 12:40:18 -0500
+
 musica (1.4) jaunty; urgency=low
 
   * index.php: support ogg, wav, and flac files, LP: #288839 and LP: #313408
