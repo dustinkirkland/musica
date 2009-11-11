@@ -338,7 +338,7 @@ function filename($file) {
 function print_artist($artist) {
 	if (is_dir("music/$artist") && visible($artist)) {
 		$href = "?artist=" . urlencode($artist);
-		print("<li><img src=group.png>&nbsp;<a href=\"$href\" target=_albums>$artist</a></li>\n");
+		print("<li><a href=\"$href\" target=_albums><img src=group.png>&nbsp;$artist</a></li>\n");
 	}
 }
 
