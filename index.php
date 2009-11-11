@@ -21,7 +21,7 @@
 */
 
 /* A list of file formats we will recognize */
-$FORMATS = array("mp3", "ogg", "wav", "flac");
+$FORMATS = array("mp3", "oga", "ogg", "wav", "flac");
 
 if (file_exists("/etc/musica/config.php")) {
 	include("/etc/musica/config.php");
@@ -83,6 +83,7 @@ $pw = sanity_check($_SERVER["PHP_AUTH_PW"]);
 
 $PREAMBLE = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["SCRIPT_NAME"]) . "/music/";
 
+if (!$playlist && ! $download_album) {
 ?>
 
 <html>
@@ -101,9 +102,8 @@ body {font-size: 13px; font-family: verdana,arial,helvetica,sans-serif; font-wei
 </style>
 </head>
 
-
-
 <?
+}
 
 /*****************/
 /* get functions */
@@ -311,7 +311,7 @@ function get_counts() {
 	/* These shell commands are 7x faster than array counting in php */
 	$artists = `ls -F music/ | grep "/\$" | wc -l` + 0;
 	$albums = `ls -F music/*/ | grep "/\$" | wc -l` + 0; /* */
-	$songs = `find music/ -type f -iname "*.mp3" -o -iname "*.ogg" -o -iname "*.wav" -o -iname "*.flac" | wc -l` + 0;
+	$songs = `find music/ -type f -iname "*.mp3" -o -iname "*.oga" -o -iname "*.ogg" -o -iname "*.wav" -o -iname "*.flac" | wc -l` + 0;
 	$counts = array($artists, $albums, $songs);
 	return $counts;
 }
@@ -329,18 +329,6 @@ function get_artist_ratings() {
 function filename($file) {
 	$parts = preg_split("/\/+/", $file);
 	return array_pop($parts);
-}
-
-function get_temp_filename($extension) {
-	global $_SERVER;
-	foreach (glob("tmp/*$extension") as $filename) {
-		unlink($filename);
-	}
-	$tempfile = tempnam("tmp", "tempfile_");
-	rename($tempfile, "$tempfile$extension");
-	$tempfile .= "$extension";
-	$tempfile = "tmp/" . filename($tempfile);
-	return $tempfile;
 }
 
 /*******************/
@@ -638,22 +626,16 @@ if ($artist && $misc && !$song && !$playlist && !$download_album) {
 /*************************************************************************/
 /* Complete playlist */
 if ($playlist && !$artist && !$album) {
-	/* cleanup old playlists */
-	$tempfile = get_temp_filename(".m3u");
-	$fp = fopen($tempfile, "w");
 	$songs = get_all_songs("", $playlist);
+	$filename = "all_" . $playlist . ".m3u";
+	header("Content-type: application/download");
+	header("Content-disposition: attachment; filename=$filename");
 	for ($i=0; $i<sizeof($songs); $i++) {
 		$line = $PREAMBLE . urlencode($songs[$i]);
 		$line = preg_replace("/\+/", "%20", $line);
 		$line = preg_replace("/\%2F/", "/", $line);
-		fputs($fp, "$line\n");
+		print("$line\n");
 	}
-	fclose($fp);
-	print("
-<body topmargin=0 leftmargin=0 bottommargin=0 rightmargin=0>
-<a href=$tempfile><img border=0 src=disk.png> Download the Complete Playlist</a>
-</body></html>
-	");
 	exit;
 }
 /*************************************************************************/
@@ -664,34 +646,25 @@ if ($playlist && !$artist && !$album) {
 /*************************************************************************/
 /* Single album playlist */
 if ($playlist) {
-	print("<h2>Now playing</h2>");
-	if ($song) {
-		print_song($artist, $album, $song);
-	} elseif ($album) {
-		print_songs_by_album($artist, $album);
-	}
 	$songs = array();
 	if ($song) {
 		array_push($songs, "$artist/$album/$song");
+		$filename = urlencode($artist) . "_" . urlencode($album) . "_" . urlencode($song) . ".m3u";
 	} elseif ($album) {
 		$songs = get_songs_by_album($artist, $album);
+		$filename = urlencode($artist) . "_" . urlencode($album) . ".m3u";
 	} elseif ($artist) {
 		$songs = get_songs_by_artist($artist);
+		$filename = urlencode($artist) . ".m3u";
 	}
-        $tempfile = get_temp_filename(".m3u");
-	$fp = fopen($tempfile, "w");
+	header("Content-type: application/download");
+	header("Content-disposition: attachment; filename=$filename");
 	for ($i=0; $i<sizeof($songs); $i++) {
 		$line = $PREAMBLE . "/" . urlencode($songs[$i]);
 		$line = preg_replace("/\+/", "%20", $line);
 		$line = preg_replace("/%2F/", "/", $line);
-		fputs($fp, "$line\n");
+		print("$line\n");
 	}
-	fclose($fp);
-	print("
-<body topmargin=0 leftmargin=0 bottommargin=0 rightmargin=0>
-<meta http-equiv=\"refresh\" content=\"0;URL=$tempfile\">
-</body></html>
-	");
 	exit;
 }
 /*************************************************************************/
@@ -702,14 +675,12 @@ if ($playlist) {
 /*************************************************************************/
 /* Download full album tarball */
 if ($download_album) {
-	print("<h2>Now downloading...</h2><center><b><big>$artist</big><br>$album</b></center>");
-        $tempfile = get_temp_filename(".tar");
-	`tar cf $tempfile "music/$artist/$album/"`;
-	print("
-<body topmargin=0 leftmargin=0 bottommargin=0 rightmargin=0>
-<meta http-equiv=\"refresh\" content=\"0;URL=$tempfile\">
-</body></html>
-	");
+	$filename = urlencode($artist) . "_" . urlencode($album) . ".tar";
+	header("Content-type: application/download");
+	header("Content-transfer-encodig: binary");
+	header("Content-disposition: attachment; filename=$filename");
+	$dir = escapeshellcmd("music/$artist/$album/");
+	print(system("tar cf - '$dir'"));
 	exit;
 }
 /*************************************************************************/

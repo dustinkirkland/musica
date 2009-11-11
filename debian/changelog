@@ -1,3 +1,13 @@
+musica (1.6) UNRELEASED; urgency=low
+
+  * index.php:
+    - add support for .oga file format, LP: #320360
+    - drop use of tmp files, instead use content type header, LP: #480509
+  * debian/musica.dirs, debian/rules:
+    - drop /var/lib/musica/tmp directory
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 10 Nov 2009 23:23:53 -0600
+
 musica (1.5) karmic; urgency=low
 
   * index.php, debian/copyright: re-license under Affero Public License
