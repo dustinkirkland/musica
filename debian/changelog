@@ -1,3 +1,10 @@
+musica (1.7) UNRELEASED; urgency=low
+
+  * index.php:
+    - s/Music/Musica/
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 10 Nov 2009 23:40:48 -0600
+
 musica (1.6) lucid; urgency=low
 
   * index.php:

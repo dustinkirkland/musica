@@ -88,7 +88,7 @@ if (!$playlist && ! $download_album) {
 
 <html>
 <head>
-<title>Music</title>
+<title>Musica</title>
 <style>
 <!--
 a {text-decoration: none; color: blue}
