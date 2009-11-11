@@ -563,7 +563,7 @@ if ($top) {
   </tr>
   <tr>
     <td colspan=3 align=center>
-      <small><small>Copyright &copy; 2000-2008 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>, the <a href=https://launchpad.net/musica target=_top>Musica Browser</a> is free code under <a href=http://www.gnu.org/licenses/agpl-3.0.txt target=_top>GNU AGPL 3</a>.  <a href=http://www.famfamfam.com/lab/icons/silk/ target=_top>Icons</a> are under <a href=http://creativecommons.org/licenses/by/2.5/ target=_top>CCA2.5</a>.</small></small>
+      <small><small>Copyright &copy; 2000-2009 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>, the <a href=https://launchpad.net/musica target=_top>Musica Browser</a> is free code under <a href=http://www.gnu.org/licenses/agpl-3.0.txt target=_top>GNU AGPL 3</a>.  <a href=http://www.famfamfam.com/lab/icons/silk/ target=_top>Icons</a> are under <a href=http://creativecommons.org/licenses/by/2.5/ target=_top>CCA2.5</a>.</small></small>
     </td>
   </tr>
 </table></body>");

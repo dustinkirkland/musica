@@ -3,6 +3,7 @@ musica (1.7) UNRELEASED; urgency=low
   * index.php:
     - s/Music/Musica/
     - extend artist hyperlink to include icon, like the others
+    - update copyright to 2009
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 10 Nov 2009 23:40:48 -0600
 
