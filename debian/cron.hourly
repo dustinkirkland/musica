@@ -1,0 +1,18 @@
+#!/bin/sh
+
+PKG=musica
+DIR=/usr/share/$PKG/music
+
+cd "$DIR"
+
+# Get Songs
+find . -type f -iname "*.mp3" -o -iname "*.oga" -o -iname "*.ogg" -o -iname "*.wav" -o -iname "*.flac" | sed "s:^\./::" > /var/lib/$PKG/songs
+wc -l /var/lib/$PKG/songs > /var/lib/$PKG/songs.count
+
+# Get Albums
+awk -F/ '{print $2}' /var/lib/$PKG/songs | sort -u > /var/lib/$PKG/albums
+wc -l /var/lib/$PKG/albums > /var/lib/$PKG/albums.count
+
+# Get Artists
+awk -F/ '{print $1}' /var/lib/$PKG/songs | sort -u > /var/lib/$PKG/artists
+wc -l /var/lib/$PKG/artists > /var/lib/$PKG/artists.count
