@@ -112,7 +112,7 @@ body {font-size: 13px; font-family: verdana,arial,helvetica,sans-serif; font-wei
 
 function get_all_artists($search="") {
 	$artists = array();
-	if ($dir = @opendir("music")) {
+	if ($dir = opendir("music")) {
 		while (($artist = readdir($dir)) !== false) {
 			if (is_dir("music/$artist") && visible($artist)) {
 				if (!$search || preg_match("/$search/i", $artist)) {
@@ -183,7 +183,7 @@ function get_all_songs($search="", $rating=0) {
 function get_albums_by_artist($artist) {
 	$albums = array();
 	if (is_dir("music/$artist")) {
-		if ($dir = @opendir("music/$artist")) {
+		if ($dir = opendir("music/$artist")) {
 			while (($album = readdir($dir)) !== false){
 				if (is_dir("music/$artist/$album") && visible($artist) && visible($album)) {
 					array_push($albums, "$artist/$album");
@@ -249,7 +249,7 @@ function set_rating($artist, $rating) {
 function get_songs_by_album($artist, $album="") {
 	$songs = array();
 	if (is_dir("music/$artist/$album")) {
-		if ($dir = @opendir("music/$artist/$album")) {
+		if ($dir = opendir("music/$artist/$album")) {
 			while (($song = readdir($dir)) !== false){
 				if (is_song("music/$artist/$album/$song") && visible($artist) && visible($album) && visible($song)) {
 					array_push($songs, "$artist/$album/$song");

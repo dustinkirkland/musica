@@ -7,6 +7,7 @@ musica (1.8) UNRELEASED; urgency=low
   * index.php:
     - read statistics from file
     - no border on images
+    - don't hide permission denied errors
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 13:07:38 -0800
 
