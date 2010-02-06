@@ -9,6 +9,7 @@ musica (1.8) UNRELEASED; urgency=low
     - no border on images
     - don't hide permission denied errors
   * debian/dirs, debian/postrm: clean up cache and lib dirs on purge
+  * debian/links, debian/postinst, debian/rules: improve install/config
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 13:07:38 -0800
 
