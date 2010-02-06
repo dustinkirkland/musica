@@ -97,6 +97,7 @@ a:visted {text-decoration: none;}
 a.head {text-decoration: none; color: white}
 a.head:hover {text-decoration: underline; }
 a.head:visted {text-decoration: none;}
+img { border: none; }
 body {font-size: 13px; font-family: verdana,arial,helvetica,sans-serif; font-weight: 400; color: #000000;}
 -->
 </style>
