@@ -1,3 +1,11 @@
+musica (1.8) UNRELEASED; urgency=low
+
+  * debian/cron.hourly, debian/rules:
+    - maintain an hourly updated list of artists/albums/songs, for
+      more efficient and secure printing of statists and doing searches
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 13:07:38 -0800
+
 musica (1.7) lucid; urgency=low
 
   * index.php:
