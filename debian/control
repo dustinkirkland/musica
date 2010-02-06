@@ -2,14 +2,14 @@ Source: musica
 Section: web
 Priority: optional
 Maintainer: Dustin Kirkland <kirkland@ubuntu.com>
-Standards-Version: 3.8.0
+Standards-Version: 3.8.3
 Build-Depends: debhelper (>= 6.0)
 Homepage: http://launchpad.net/musica
 Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/musica/main
 
 Package: musica
 Architecture: all
-Depends: debconf (>= 0.5) | debconf-2.0, apache2, libapache2-mod-php5
+Depends: ${misc:Depends}, apache2, libapache2-mod-php5
 Description: a web application for browsing and listening to your music
  Musica is a web application for browsing and listening to your music. Songs
  are organized hierarchically in folders of Artists, and sub-folders of Albums.
