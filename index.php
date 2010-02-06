@@ -308,11 +308,11 @@ function get_random_artist() {
 }
 
 function get_counts() {
-	/* These shell commands are 7x faster than array counting in php */
-	$artists = `ls -F music/ | grep "/\$" | wc -l` + 0;
-	$albums = `ls -F music/*/ | grep "/\$" | wc -l` + 0; /* */
-	$songs = `find music/ -type f -iname "*.mp3" -o -iname "*.oga" -o -iname "*.ogg" -o -iname "*.wav" -o -iname "*.flac" | wc -l` + 0;
-	$counts = array($artists, $albums, $songs);
+	# Updated by an hourly cronjob
+	$artists = @file("/var/lib/musica/artists.count");
+	$albums = @file("/var/lib/musica/albums.count");
+	$songs = @file("/var/lib/musica/songs.count");
+	$counts = array($artists[0], $albums[0], $songs[0]);
 	return $counts;
 }
 

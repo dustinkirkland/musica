@@ -4,6 +4,8 @@ musica (1.8) UNRELEASED; urgency=low
     - maintain an hourly updated list of artists/albums/songs, for
       more efficient and secure printing of statists and doing searches
   * debian/rules: drop debconf stuff, as it's not used
+  * index.php:
+    - read statistics from file
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 13:07:38 -0800
 
