@@ -8,7 +8,11 @@
 # Uncomment this to turn on verbose mode.
 # export DH_VERBOSE=1
 
-PACKAGE=musica
+PKG=musica
+VER=`head -n 1 debian/changelog | sed 's/^.*(//' | sed 's/).*//' | sed 's/-.*//'`
+
+get-orig-source:
+	bzr export ../${PKG}_${VER}.orig.tar.gz
 
 build:
 
