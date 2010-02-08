@@ -1,3 +1,10 @@
+musica (1.9) UNRELEASED; urgency=low
+
+  * debian/postinst: cache no longer used
+  * debian/postrm: clean up link and statistics
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 12:12:31 -0600
+
 musica (1.8) lucid; urgency=low
 
   * debian/cron.hourly, debian/rules:

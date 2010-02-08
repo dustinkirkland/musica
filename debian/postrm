@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+
+PKG="musica"
+case "$1" in
+	purge)
+		rm -f /var/lib/$PKG/*
+		[ -h /usr/share/$PKG/music ] && rm -f /usr/share/$PKG/music
+	;;
+esac
+
+#DEBHELPER#

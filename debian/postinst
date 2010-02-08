@@ -7,7 +7,6 @@ webserver="apache2"
 
 case "$1" in
 	configure)
-		chown www-data:www-data /var/cache/$package
 		a2ensite $package
 		invoke-rc.d $webserver reload
 	;;
