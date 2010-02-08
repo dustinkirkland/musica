@@ -1,3 +1,9 @@
+musica (1.10) lucid; urgency=low
+
+  * debian/postrm: safely clean up
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 12:19:35 -0600
+
 musica (1.9) lucid; urgency=low
 
   * debian/postinst: cache no longer used
