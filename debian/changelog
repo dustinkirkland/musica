@@ -1,6 +1,6 @@
 musica (1.11) UNRELEASED; urgency=low
 
-  * 
+  * debian/postrm: dissite and rm etc config
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 18:30:24 -0600
 

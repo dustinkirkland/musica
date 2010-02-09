@@ -4,8 +4,11 @@ set -e
 
 PKG="musica"
 case "$1" in
+	remove)
+		a2dissite $PKG
+	;;
 	purge)
-		rm -f /var/lib/$PKG/*
+		rm -f /var/lib/$PKG/* /etc/$PKG/apache.conf
 		[ -h /usr/share/$PKG/music ] && rm -f /usr/share/$PKG/music || true
 	;;
 esac
