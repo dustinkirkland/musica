@@ -1,3 +1,9 @@
+musica (1.12) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 19:02:47 -0600
+
 musica (1.11-0ubuntu1) lucid; urgency=low
 
   * debian/postrm: dissite and rm etc config
