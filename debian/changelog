@@ -1,3 +1,9 @@
+musica (1.11) UNRELEASED; urgency=low
+
+  * 
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 18:30:24 -0600
+
 musica (1.10) lucid; urgency=low
 
   * debian/postrm: safely clean up
