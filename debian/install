@@ -4,6 +4,7 @@ control_play_blue.png usr/share/musica
 disk.png usr/share/musica
 group.png usr/share/musica
 index.php usr/share/musica
+jplayer/* usr/share/musica
 music.png usr/share/musica
 star_on.png usr/share/musica
 star_off.png usr/share/musica

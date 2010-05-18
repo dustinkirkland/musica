@@ -22,6 +22,7 @@
 
 /* A list of file formats we will recognize */
 $FORMATS = array("mp3", "oga", "ogg", "wav", "flac");
+$JPLAYER_LIST = "";
 
 if (file_exists("/etc/musica/config.php")) {
 	include("/etc/musica/config.php");
@@ -89,14 +90,15 @@ if (!$playlist && ! $download_album) {
 <html>
 <head>
 <title>Musica</title>
+<link href="skin/jplayer.blue.monday.css" rel="stylesheet" type="text/css" />
 <style>
 <!--
 a {text-decoration: none; color: blue}
 a:hover {text-decoration: underline; }
-a:visted {text-decoration: none;}
+a:visited {text-decoration: none;}
 a.head {text-decoration: none; color: white}
 a.head:hover {text-decoration: underline; }
-a.head:visted {text-decoration: none;}
+a.head:visited {text-decoration: none;}
 img { border: none; }
 body {font-size: 13px; font-family: verdana,arial,helvetica,sans-serif; font-weight: 400; color: #000000;}
 -->
@@ -351,14 +353,17 @@ function print_album($artist, $album) {
 }
 
 function print_song($artist, $album, $song) {
-	global $PREAMBLE;
+	global $PREAMBLE, $JPLAYER_LIST;
+	print("<noscript>");
 	if (is_song($song) && visible($artist) && visible($album) && visible($song)) {
 		$href = $PREAMBLE . urlencode($artist) . "/" . urlencode($album) . "/" . urlencode("$song");
 		$href = $line = preg_replace("/\+/", "%20", $href);
 		$track = preg_replace("/\.[^.]*$/", "", $song);
 		print("<a href=\"$href\"><img src=disk.png border=0></a><a href=\"?playlist=1&artist=$artist&album=$album&song=$song\">");
 		print("<img src=music.png border=0>&nbsp;$track</a><br>");
+		$JPLAYER_LIST .= "{name:\"$track\",mp3:\"$href\"},\n";
 	}
+	print("</noscript>");
 }
 
 function print_artists($search="") {
@@ -430,6 +435,7 @@ function print_albums_by_search($search) {
 }
 
 function print_songs_by_album($artist, $album) {
+	global $JPLAYER_LIST;
 	print("<p align=center><img src=group.png>&nbsp;<b><big>$artist</b></big><br><img src=cd.png>&nbsp;<b>$album</b><br>\n");
 	$wiki = preg_replace("/\s*\(.*/", "", $album);
 	$wiki = urlencode($wiki);
@@ -440,6 +446,9 @@ function print_songs_by_album($artist, $album) {
 		list($artist, $album, $song) = preg_split("/\//", $songs[$i]);
 		print_song($artist, $album, $song);
 	}
+	if ($JPLAYER_LIST != "") {
+		include("jplayer.php");
+	}
 	$size = get_size_of_album($artist, $album);
         print("<p align=right>
 <a href=?playlist=1&artist=" . urlencode($artist) . "&album=" . urlencode($album) . "><img src=control_play_blue.png border=0>&nbsp;play album</a><br>
@@ -448,11 +457,15 @@ function print_songs_by_album($artist, $album) {
 }
 
 function print_misc_songs_by_artist($artist) {
+	global $JPLAYER_LIST;
 	print("<center><img src=group.png>&nbsp;<big><b>$artist</b></big><br><img src=music.png>&nbsp;<b>Miscellaneous</b></center><br>");
 	$songs = get_songs_by_album($artist);
 	for ($i=0; $i<sizeof($songs); $i++) {
 		list($artist, $album, $song) = preg_split("/\//", $songs[$i]);
 		print_song($artist, $album, $song);
+	}
+	if ($JPLAYER_LIST != "") {
+		include("jplayer.php");
 	}
 	print("<p align=right><a href=?playlist=1&artist=" . urlencode($artist) . "><img src=control_play_blue.png border=0>&nbsp;play all by artist</a></p> ");
 }

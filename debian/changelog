@@ -1,6 +1,9 @@
-musica (1.12) unreleased; urgency=low
+musica (2.0) unreleased; urgency=low
 
-  * UNRELEASED
+  Add jPlayer (GPLv3) as an embedded javascript/flash mp3 player
+  * debian/control, debian/install, debian/rules, index.php,
+    jplayer.php, jplayer/js/Jplayer.as, jplayer/js/jquery.jplayer.min.js,
+    jplayer/skin/jplayer.blue.monday.css: LP: #555347
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 19:02:47 -0600
 
