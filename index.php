@@ -475,14 +475,18 @@ function print_misc_songs_by_artist($artist) {
 }
 
 function print_songs_by_search($search) {
+	global $JPLAYER_LIST, $JPLAYER_OGG;
         print("<ol>");
 	$songs = get_all_songs($search);
 	for ($i=0; $i<sizeof($songs); $i++) {
 		list($artist, $album, $song) = preg_split("/\//", $songs[$i]);
-		print_artist($artist);
-		print_album($artist, $album);
+		//print_artist($artist);
+		//print_album($artist, $album);
 		print_song($artist, $album, $song);
 
+	}
+	if ($JPLAYER_LIST != "") {
+		include("jplayer.php");
 	}
 	print("</ol>");
 }
