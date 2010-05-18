@@ -1,3 +1,4 @@
+<?php
 /*
  * jPlayer
  * http://www.happyworm.com/jquery/jplayer
@@ -9,6 +10,7 @@
  *
  * Customized by Dustin Kirkland <dustin.kirkland@gmail.com>
  */
+?>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
@@ -33,7 +35,7 @@ $(document).ready(function(){
 			displayPlayList();
 			playListInit(false); // Parameter is a boolean for autoplay.
 		},
-		oggSupport: false
+		oggSupport: <?php echo $JPLAYER_OGG; ?>
 	})
 	.jPlayer("onProgressChange", function(loadPercent, playedPercentRelative, playedPercentAbsolute, playedTime, totalTime) {
 		jpPlayTime.text($.jPlayer.convertTime(playedTime));
@@ -59,7 +61,7 @@ $(document).ready(function(){
 		$("#jplayer_playlist ul").empty();
 		for (i=0; i < myPlayList.length; i++) {
 			var listItem = (i == myPlayList.length-1) ? "<li class='jplayer_playlist_item_last'>" : "<li>";
-			listItem += "<a href='#' id='jplayer_playlist_item_"+i+"' tabindex='1'>"+ myPlayList[i].name +"</a> (<a id='jplayer_playlist_get_mp3_"+i+"' href='" + myPlayList[i].mp3 + "' tabindex='1'>mp3</a>)</li>";
+			listItem += "<a id='jplayer_playlist_get_mp3_"+i+"' href='" + myPlayList[i].mp3 + "' tabindex='1'><img src='disk.png' width='12'></a> <a href='#' id='jplayer_playlist_item_"+i+"' tabindex='1'>"+ myPlayList[i].name +"</a></li>";
 			$("#jplayer_playlist ul").append(listItem);
 			$("#jplayer_playlist_item_"+i).data( "index", i ).click( function() {
 				var index = $(this).data("index");
@@ -86,7 +88,7 @@ $(document).ready(function(){
 		$("#jplayer_playlist_item_"+playItem).removeClass("jplayer_playlist_current").parent().removeClass("jplayer_playlist_current");
 		$("#jplayer_playlist_item_"+index).addClass("jplayer_playlist_current").parent().addClass("jplayer_playlist_current");
 		playItem = index;
-		$("#jquery_jplayer").jPlayer("setFile", myPlayList[playItem].mp3);
+		$("#jquery_jplayer").jPlayer("setFile", myPlayList[playItem].mp3, myPlayList[playItem].ogg);
 	}
 
 	function playListChange( index ) {

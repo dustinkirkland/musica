@@ -23,6 +23,7 @@
 /* A list of file formats we will recognize */
 $FORMATS = array("mp3", "oga", "ogg", "wav", "flac");
 $JPLAYER_LIST = "";
+$JPLAYER_OGG = "false";
 
 if (file_exists("/etc/musica/config.php")) {
 	include("/etc/musica/config.php");
@@ -353,15 +354,18 @@ function print_album($artist, $album) {
 }
 
 function print_song($artist, $album, $song) {
-	global $PREAMBLE, $JPLAYER_LIST;
+	global $PREAMBLE, $JPLAYER_LIST, $JPLAYER_OGG;
 	print("<noscript>");
 	if (is_song($song) && visible($artist) && visible($album) && visible($song)) {
 		$href = $PREAMBLE . urlencode($artist) . "/" . urlencode($album) . "/" . urlencode("$song");
 		$href = $line = preg_replace("/\+/", "%20", $href);
-		$track = preg_replace("/\.[^.]*$/", "", $song);
+		list($track, $ext) = preg_split("/\./", $song, 2);
+		if ($ext == "ogg" || $ext == "OGG") {
+			$JPLAYER_OGG = "true";
+		}
 		print("<a href=\"$href\"><img src=disk.png border=0></a><a href=\"?playlist=1&artist=$artist&album=$album&song=$song\">");
 		print("<img src=music.png border=0>&nbsp;$track</a><br>");
-		$JPLAYER_LIST .= "{name:\"$track\",mp3:\"$href\"},\n";
+		$JPLAYER_LIST .= "{name:\"$track\",$ext:\"$href\"},\n";
 	}
 	print("</noscript>");
 }
@@ -435,7 +439,7 @@ function print_albums_by_search($search) {
 }
 
 function print_songs_by_album($artist, $album) {
-	global $JPLAYER_LIST;
+	global $JPLAYER_LIST, $JPLAYER_OGG;
 	print("<p align=center><img src=group.png>&nbsp;<b><big>$artist</b></big><br><img src=cd.png>&nbsp;<b>$album</b><br>\n");
 	$wiki = preg_replace("/\s*\(.*/", "", $album);
 	$wiki = urlencode($wiki);
@@ -457,7 +461,7 @@ function print_songs_by_album($artist, $album) {
 }
 
 function print_misc_songs_by_artist($artist) {
-	global $JPLAYER_LIST;
+	global $JPLAYER_LIST, $JPLAYER_OGG;
 	print("<center><img src=group.png>&nbsp;<big><b>$artist</b></big><br><img src=music.png>&nbsp;<b>Miscellaneous</b></center><br>");
 	$songs = get_songs_by_album($artist);
 	for ($i=0; $i<sizeof($songs); $i++) {
