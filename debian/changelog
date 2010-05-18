@@ -1,4 +1,4 @@
-musica (2.0) unreleased; urgency=low
+musica (2.0-0ubuntu1) maverick; urgency=low
 
   Add jPlayer (GPLv3) as an embedded javascript/flash mp3 player
   * debian/control, debian/install, debian/rules, index.php,
@@ -6,7 +6,7 @@ musica (2.0) unreleased; urgency=low
     jplayer/skin/jplayer.blue.monday.css: LP: #555347
   * debian/copyright: updated license info
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 19:02:47 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 18 May 2010 12:00:12 -0500
 
 musica (1.11-0ubuntu1) lucid; urgency=low
 
