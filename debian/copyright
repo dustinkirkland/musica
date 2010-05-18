@@ -6,13 +6,33 @@ It was downloaded from: http://launchpad.net/musica
 Upstream Authors: Dustin Kirkland <dustin.kirkland@gmail.com>
 
 Copyright:
- Copyright (C) 2002-2009 Dustin Kirkland <dustin.kirkland@gmail.com>
+ Copyright (C) 2000-2010 Dustin Kirkland <dustin.kirkland@gmail.com>
  All rights reserved.
+
+ Musica
+  - http://launchpad.net/musica
+ Copyright (c) 2000-2010 Dustin Kirkland <dustin.kirkland@gmail.com>
+ Licensed under the AGPL
+ Author: Dustin Kirkland
+
+ jPlayer Plugin for jQuery JavaScript Library
+  - http://www.happyworm.com/jquery/jplayer
+ Copyright (c) 2009 - 2010 Happyworm Ltd
+ Dual licensed under the MIT and GPL licenses; used here under the GPL.
+  - http://www.gnu.org/copyleft/gpl.html
+ Author: Mark J Panaghiston
+
+ Skin for jPlayer Plugin (jQuery JavaScript Library)
+  - http://www.happyworm.com/jquery/jplayer
+ Copyright (c) 2010 Happyworm Ltd
+ Dual licensed under the MIT and GPL licenses; used here under the GPL
+  - http://www.gnu.org/copyleft/gpl.html
+ Author: Silvia Benvenuti
 
 License:
 
   musica: web application for browsing and listening to your music
-  Copyright (C) 2000-2009 Dustin Kirkland <dustin.kirkland@gmail.com>
+  Copyright (C) 2000-2010 Dustin Kirkland <dustin.kirkland@gmail.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Affero General Public License as
@@ -32,5 +52,5 @@ License:
  the icons are available at <http://www.famfamfam.com/lab/icons/silk/>.
 
 The Ubuntu packaging:
- Copyright (C) 2008 by Dustin Kirkland <dustin.kirkland@gmail.com>
+ Copyright (C) 2008-2010 by Dustin Kirkland <dustin.kirkland@gmail.com>
  released under the GPL-3.

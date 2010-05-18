@@ -4,6 +4,7 @@ musica (2.0) unreleased; urgency=low
   * debian/control, debian/install, debian/rules, index.php,
     jplayer.php, jplayer/js/Jplayer.as, jplayer/js/jquery.jplayer.min.js,
     jplayer/skin/jplayer.blue.monday.css: LP: #555347
+  * debian/copyright: updated license info
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 19:02:47 -0600
 
