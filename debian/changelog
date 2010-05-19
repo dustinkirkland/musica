@@ -1,8 +1,8 @@
-musica (2.1) unreleased; urgency=low
+musica (2.1-0ubuntu1) maverick; urgency=low
 
   * index.php: handle files that have multiple dots in the filename
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 18 May 2010 12:00:18 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 19 May 2010 11:44:13 -0500
 
 musica (2.0-0ubuntu1) maverick; urgency=low
 
