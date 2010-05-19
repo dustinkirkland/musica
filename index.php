@@ -359,13 +359,13 @@ function print_song($artist, $album, $song) {
 	if (is_song($song) && visible($artist) && visible($album) && visible($song)) {
 		$href = $PREAMBLE . urlencode($artist) . "/" . urlencode($album) . "/" . urlencode("$song");
 		$href = $line = preg_replace("/\+/", "%20", $href);
-		list($track, $ext) = preg_split("/\./", $song, 2);
+		$parts = pathinfo($song);
 		if ($ext == "ogg" || $ext == "OGG") {
 			$JPLAYER_OGG = "true";
 		}
 		print("<a href=\"$href\"><img src=disk.png border=0></a><a href=\"?playlist=1&artist=$artist&album=$album&song=$song\">");
-		print("<img src=music.png border=0>&nbsp;$track</a><br>");
-		$JPLAYER_LIST .= "{name:\"$track\",$ext:\"$href\"},\n";
+		print("<img src=music.png border=0>&nbsp;" . $parts["filename"] . "</a><br>");
+		$JPLAYER_LIST .= "{name:\"" . $parts["filename"] . "\"," . $parts["extension"] . ":\"$href\"},\n";
 	}
 	print("</noscript>");
 }

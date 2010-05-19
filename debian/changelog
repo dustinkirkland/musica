@@ -1,6 +1,6 @@
 musica (2.1) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php: handle files that have multiple dots in the filename
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 18 May 2010 12:00:18 -0500
 
