@@ -1,6 +1,6 @@
 musica (2.2) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php: support https protocol
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 19 May 2010 11:44:19 -0500
 
