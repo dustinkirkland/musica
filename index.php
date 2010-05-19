@@ -537,7 +537,7 @@ if ($blank) {
 /* Middle Frame, which includes three more frames */
 if ($middle) {
 	print ("
-			<frameset cols='33%,33%,33%' border=0>
+			<frameset cols='33%,33%,34%' border=0>
 			<frame src=?artist=_all name=_artists>
 			<frame src=?blank=1 name=_albums>
 			<frame src=?blank=1 name=_songs>
@@ -563,7 +563,7 @@ if ($top) {
     <td width=33%>
       <img src=cd.png>&nbsp;<b>Albums ($albums)</b>
     </td>
-    <td width=33%>
+    <td width=34%>
       <img src=music.png>&nbsp;<b>Songs ($songs)</b>
     </td>
   </tr>

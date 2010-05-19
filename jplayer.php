@@ -108,7 +108,6 @@ $(document).ready(function(){
 });
 -->
 </script>
-
 		<div id="jquery_jplayer"></div>
 
 		<div class="jp-playlist-player">
