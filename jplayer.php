@@ -35,6 +35,8 @@ $(document).ready(function(){
 			displayPlayList();
 			playListInit(false); // Parameter is a boolean for autoplay.
 		},
+		nativeSupport: false,
+		customCssIds: false,
 		oggSupport: <?php echo $JPLAYER_OGG; ?>
 	})
 	.jPlayer("onProgressChange", function(loadPercent, playedPercentRelative, playedPercentAbsolute, playedTime, totalTime) {
