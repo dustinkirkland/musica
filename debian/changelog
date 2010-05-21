@@ -1,4 +1,4 @@
-musica (2.2) unreleased; urgency=low
+musica (2.2-0ubuntu1) maverick; urgency=low
 
   * index.php: support https protocol
   * index.php, jplayer.php, jplayer/skin/jplayer.blue.monday.css:
@@ -6,7 +6,7 @@ musica (2.2) unreleased; urgency=low
   * jplayer.php: default to the flash player for now; should eventually
     add logic to determine native vs. flash
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 19 May 2010 11:44:19 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 21 May 2010 08:38:41 -0500
 
 musica (2.1-0ubuntu1) maverick; urgency=low
 
