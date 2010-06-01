@@ -1,6 +1,8 @@
 musica (2.3) unreleased; urgency=low
 
   * jplayer.php: start playing on page load
+  * index.php: move the "about" text to a single link, and a page of its
+    own, creates more vertical space
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 21 May 2010 08:38:48 -0500
 

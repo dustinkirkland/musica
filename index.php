@@ -75,6 +75,7 @@ $blank = sanity_check($_REQUEST["blank"]);
 $artist = sanity_check($_REQUEST["artist"]);
 $album = sanity_check($_REQUEST["album"]);
 $song = sanity_check($_REQUEST["song"]);
+$about = sanity_check($_REQUEST["about"]);
 $misc = sanity_check($_REQUEST["misc"]);
 $playlist = sanity_check($_REQUEST["playlist"]);
 $download_album = sanity_check($_REQUEST["download_album"]);
@@ -375,12 +376,7 @@ function print_song($artist, $album, $song) {
 }
 
 function print_artists($search="") {
-	if ($search) {
-		$title = "Matching Artists";
-	} else {
-		$title = "All Artists";
-	}
-	print("<center><img src=group.png>&nbsp;<big><b>$title</b></big></center><ol>");
+	print("<ol>");
 	$artists = get_all_artists($search);
 	for ($i=0; $i<sizeof($artists); $i++) {
 		print_artist($artists[$i]);
@@ -505,6 +501,7 @@ function print_songs_by_search($search) {
 if (		!$artist && 
 		!$album && 
 		!$song && 
+		!$about && 
 		!$playlist && 
 		!$download_album && 
 		!$blank && 
@@ -512,7 +509,7 @@ if (		!$artist &&
 		!$middle) 
 {
 	print ("
-			<frameset rows='85,*' border=0>
+			<frameset rows='65,*' border=0>
 			<frame src=?top=1 name=_upper>
 			<frame src=?middle=1 name=_middle>
 			</frameset>
@@ -563,8 +560,11 @@ if ($top) {
     <td width=33%>
       <img src=cd.png>&nbsp;<b>Albums ($albums)</b>
     </td>
-    <td width=34%>
+    <td width=33%>
       <img src=music.png>&nbsp;<b>Songs ($songs)</b>
+    </td>
+    <td width=1%>
+      <b><a href=?about=1 target=_songs title='About Musica'>?</a></b>
     </td>
   </tr>
   <tr align=center>
@@ -587,12 +587,23 @@ if ($top) {
         <input type=submit value=all onfocus=javascript:document.forms[0].search.value=\"\"></form>
     </td>
   </tr>
-  <tr>
-    <td colspan=3 align=center>
-      <small><small><a href=https://launchpad.net/musica target=_top>Musica</a> is <a href=http://www.gnu.org/licenses/agpl-3.0.txt target=_top>GNU AGPL 3</a> free software, Copyright &copy; 2000-2010 <a href=http://blog.dustinkirkland.com>Dustin Kirkland</a>.  <a href=http://www.famfamfam.com/lab/icons/silk/ target=_top>Icons</a> are <a href=http://creativecommons.org/licenses/by/2.5/ target=_top>CCA2.5</a>.</small></small>
-    </td>
-  </tr>
 </table></body>");
+	exit;
+}
+/*************************************************************************/
+
+/*************************************************************************/
+/* About Musica*/
+if ($about) {
+	print("
+<big><b>About Musica</b></big><br><br>
+
+<a href=https://launchpad.net/musica target=_top>Musica</a> is Free Software under the <a href=http://www.gnu.org/licenses/agpl-3.0.txt target=_top>GNU AGPL 3</a>, Copyright &copy;2000-2010 <a href=http://blog.dustinkirkland.com>Dustin Kirkland</a>.<br><br>
+
+<a href=http://www.famfamfam.com/lab/icons/silk/ target=_top>FamFamFam Silk Icons</a> are used under the <a href=http://creativecommons.org/licenses/by/3.0/ target=_top>CCA3.0</a> license.<br><br>
+
+<a href=http://www.happyworm.com/jquery/jplayer/ target=_top>jPlayer audio player plugin</a> is developed by <a href=http://www.happyworm.com/ target=_top>Happyworm</a>, and is Free, Open Source and dual licensed under the <a href=http://www.opensource.org/licenses/mit-license.php target=_top>MIT</a> and <a href=http://www.gnu.org/copyleft/gpl.html target=_top>GPL</a> licenses.<br><br>
+	");
 	exit;
 }
 /*************************************************************************/
@@ -606,7 +617,6 @@ if ($artist == "_all") {
 	exit;
 }
 /*************************************************************************/
-
 
 
 /*************************************************************************/
