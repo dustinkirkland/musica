@@ -1,3 +1,9 @@
+musica (2.4) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 01 Jun 2010 09:09:19 -0500
+
 musica (2.3-0ubuntu1) maverick; urgency=low
 
   * jplayer.php: start playing on page load
