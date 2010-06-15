@@ -1,9 +1,9 @@
-musica (2.4) unreleased; urgency=low
+musica (2.4-0ubuntu1) maverick; urgency=low
 
   * index.php: fix problem where songs or albums have two '.' in their
     name
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 01 Jun 2010 09:09:19 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 15 Jun 2010 10:59:40 -0500
 
 musica (2.3-0ubuntu1) maverick; urgency=low
 
