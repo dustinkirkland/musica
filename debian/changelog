@@ -1,6 +1,7 @@
 musica (2.4) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php: fix problem where songs or albums have two '.' in their
+    name
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 01 Jun 2010 09:09:19 -0500
 

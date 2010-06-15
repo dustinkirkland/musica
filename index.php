@@ -32,7 +32,7 @@ if (file_exists("/etc/musica/config.php")) {
 function sanity_check($string) {
 	$string = urldecode($string);
 	$string = stripslashes($string);
-	if (preg_match("/\.\./", $string)) {
+	if (preg_match("/\.\.\//", $string)) {
 		exit;
 	}
 	if (preg_match("/\//", $string)) {
