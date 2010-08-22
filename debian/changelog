@@ -1,6 +1,6 @@
 musica (2.5) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/install, favicon.ico, index.php: add a favicon.ico, LP: #622289
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 15 Jun 2010 10:59:45 -0500
 

@@ -6,6 +6,7 @@ group.png usr/share/musica
 *.php usr/share/musica
 jplayer/* usr/share/musica
 music.png usr/share/musica
+favicon.ico usr/share/musica
 star_on.png usr/share/musica
 star_off.png usr/share/musica
 debian/apache.conf  etc/musica

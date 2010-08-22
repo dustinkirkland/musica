@@ -109,6 +109,7 @@ img { border: none; }
 body {font-size: 13px; font-family: verdana,arial,helvetica,sans-serif; font-weight: 400; color: #000000;}
 -->
 </style>
+<link rel="shortcut icon" href="/musica/favicon.ico" type="image/x-icon">
 </head>
 
 <?
