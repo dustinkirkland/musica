@@ -1,9 +1,9 @@
-musica (2.5) unreleased; urgency=low
+musica (2.5-0ubuntu1) maverick; urgency=low
 
   * debian/install, favicon.ico, index.php: add a favicon.ico, LP: #622289
   * favicon.ico: stylize the musical note to look like an "M"
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 15 Jun 2010 10:59:45 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 24 Aug 2010 15:11:07 -0400
 
 musica (2.4-0ubuntu1) maverick; urgency=low
 
