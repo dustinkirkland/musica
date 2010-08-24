@@ -1,6 +1,7 @@
 musica (2.5) unreleased; urgency=low
 
   * debian/install, favicon.ico, index.php: add a favicon.ico, LP: #622289
+  * favicon.ico: stylize the musical note to look like an "M"
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 15 Jun 2010 10:59:45 -0500
 
