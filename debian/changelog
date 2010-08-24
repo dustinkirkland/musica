@@ -1,3 +1,9 @@
+musica (2.6) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 24 Aug 2010 15:11:15 -0400
+
 musica (2.5-0ubuntu1) maverick; urgency=low
 
   * debian/install, favicon.ico, index.php: add a favicon.ico, LP: #622289
