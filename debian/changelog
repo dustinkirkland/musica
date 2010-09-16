@@ -1,8 +1,8 @@
-musica (2.6) unreleased; urgency=low
+musica (2.6-0ubuntu1) maverick; urgency=low
 
   * index.php: support nested album directories, LP: #640821
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 24 Aug 2010 15:11:15 -0400
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 16 Sep 2010 14:11:19 -0700
 
 musica (2.5-0ubuntu1) maverick; urgency=low
 
