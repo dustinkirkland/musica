@@ -35,7 +35,7 @@ function sanity_check($string) {
 	if (preg_match("/\.\.\//", $string)) {
 		exit;
 	}
-	if (preg_match("/\//", $string)) {
+	if (preg_match("/^\//", $string)) {
 		exit;
 	}
 	if (preg_match("/;/", $string)) {
@@ -68,6 +68,49 @@ function is_song($str) {
 	return false;
 }
 
+function findsubdirs($dir) {
+	$dir = escapeshellcmd($dir);
+	$dirs = glob("$dir/");
+	foreach (glob("$dir/{.[^.]*,*}", GLOB_BRACE|GLOB_ONLYDIR) as $sub_dir){
+		$list = findsubdirs($sub_dir);
+		$dirs = array_merge($dirs, $list);
+	}
+	return $dirs;
+}
+
+function has_files($dir) {
+	foreach (scandir($dir) as $file) {
+		if (is_file("$dir/$file")) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function split2($path) {
+	// Artist is everything before the first slash,
+	// Album is everything after
+	return preg_split("/\/+/", $path, 2);
+}
+
+function split3($path) {
+	// Artist is everything before the first slash,
+	// Song is everything after the last slash
+	// Album is everything in between
+	$results = preg_split("/\/+/", $path);
+	$artist = array_shift($results);
+	$song = array_pop($results);
+	$album = array_shift($results);
+	foreach ($results as $i) {
+		$album = "$album/$i";
+	}
+	return array($artist, $album, $song);
+}
+
+function urlencode_album($album) {
+	// Must allow "/" in album names, for nested albums
+	return preg_replace("/%2F/", "/", urlencode($album));
+}
 
 $top = sanity_check($_REQUEST["top"]);
 $middle = sanity_check($_REQUEST["middle"]);
@@ -143,7 +186,7 @@ function get_all_albums($search="") {
 	for ($i=0; $i<sizeof($artists); $i++) {
 		$a =  get_albums_by_artist($artists[$i]);
 		for ($j=0; $j<sizeof($a); $j++) {
-			list($artist, $album) = preg_split("/\//", $a[$j]);
+			list($artist, $album) = split2($a[$j]);
 			if (!$search || preg_match("/$search/i", $album)) {
 				array_push($albums, $a[$j]);
 			}
@@ -164,7 +207,7 @@ function get_all_songs($search="", $rating=0) {
 	for ($i=0; $i<sizeof($artists); $i++) {
 		$s = get_songs_by_album($artists[$i]);
 		for ($j=0; $j<sizeof($s); $j++) {
-			list($artist, $album, $song) = preg_split("/\//", $s[$j]);
+			list($artist, $album, $song) = split3($s[$j]);
 			if (!$search || preg_match("/$search/", $song)) {
 				if (!$rating || $ratings["$artist"] >= $rating) {
 					array_push($songs, $s[$j]);
@@ -174,10 +217,10 @@ function get_all_songs($search="", $rating=0) {
 	}
 	$albums = get_all_albums();
 	for ($i=0; $i<sizeof($albums); $i++) {
-		list($artist, $album) = preg_split("/\//", $albums[$i]);
+		list($artist, $album) = split2($albums[$i]);
 		$s = get_songs_by_album($artist, $album);
 		for ($j=0; $j<sizeof($s); $j++) {
-			list($artist, $album, $song) = preg_split("/\//", $s[$j]);
+			list($artist, $album, $song) = split3($s[$j]);
 			if (!$search || preg_match("/$search/i", $song)) {
 				if (!$rating || $ratings["$artist"] >= $rating) {
 					array_push($songs, $s[$j]);
@@ -192,13 +235,15 @@ function get_all_songs($search="", $rating=0) {
 function get_albums_by_artist($artist) {
 	$albums = array();
 	if (is_dir("music/$artist")) {
-		if ($dir = opendir("music/$artist")) {
-			while (($album = readdir($dir)) !== false){
-				if (is_dir("music/$artist/$album") && visible($artist) && visible($album)) {
-					array_push($albums, "$artist/$album");
-				}
-			}
-			closedir($dir);
+		$albums = findsubdirs("music/$artist");
+	}
+	array_shift($albums);
+	for ($i=0; $i<sizeof($albums); $i++) {
+		if (! has_files($albums[$i])) {
+			$albums[$i] = "";
+		} else {
+			$albums[$i] = preg_replace("/^music\//", "", $albums[$i]);
+			$albums[$i] = preg_replace("/\/$/", "", $albums[$i]);
 		}
 	}
 	sort($albums);
@@ -275,7 +320,7 @@ function get_songs_by_artist($artist) {
 	$songs = array();
 	$s = get_songs_by_album($artist);
 	for ($i=0; $i<sizeof($s); $i++) {
-		list($artist, $album, $song) = preg_split("/\//", $s[$i]);
+		list($artist, $album, $song) = split3($s[$i]);
 		if (!$search || preg_match("/$search/", $song)) {
 			if (!$rating || $ratings["$artist"] >= $rating) {
 				array_push($songs, $s[$i]);
@@ -284,10 +329,10 @@ function get_songs_by_artist($artist) {
 	}
 	$albums = get_albums_by_artist($artist);
 	for ($i=0; $i<sizeof($albums); $i++) {
-		list($artist, $album) = preg_split("/\//", $albums[$i]);
+		list($artist, $album) = split2($albums[$i]);
 		$s = get_songs_by_album($artist, $album);
 		for ($j=0; $j<sizeof($s); $j++) {
-			list($artist, $album, $song) = preg_split("/\//", $s[$j]);
+			list($artist, $album, $song) = split3($s[$j]);
 			if (!$search || preg_match("/$search/i", $song)) {
 				if (!$rating || $ratings["$artist"] >= $rating) {
 					array_push($songs, $s[$j]);
@@ -336,11 +381,6 @@ function get_artist_ratings() {
 	return $ratings;
 }
 
-function filename($file) {
-	$parts = preg_split("/\/+/", $file);
-	return array_pop($parts);
-}
-
 /*******************/
 /* print functions */
 /*******************/
@@ -353,9 +393,9 @@ function print_artist($artist) {
 }
 
 function print_album($artist, $album) {
-	if (visible($artist) && visible($album)) {
-		$href = "?artist=" . urlencode($artist) . "&album=" . urlencode($album);
-		print("<a href=$href target=_songs><img border=0 src=cd.png>&nbsp;$album</a><br>");
+	if (visible($artist) && visible($album) && isset($album)) {
+		$href = "?artist=" . urlencode($artist) . "&album=" . urlencode_album($album);
+		print("<li><a href=$href target=_songs><img border=0 src=cd.png>&nbsp;$album</a><br>");
 	}
 }
 
@@ -363,7 +403,7 @@ function print_song($artist, $album, $song) {
 	global $PREAMBLE, $JPLAYER_LIST, $JPLAYER_OGG;
 	print("<noscript>");
 	if (is_song($song) && visible($artist) && visible($album) && visible($song)) {
-		$href = $PREAMBLE . urlencode($artist) . "/" . urlencode($album) . "/" . urlencode("$song");
+		$href = $PREAMBLE . urlencode($artist) . "/" . urlencode_album($album) . "/" . urlencode("$song");
 		$href = $line = preg_replace("/\+/", "%20", $href);
 		$parts = pathinfo($song);
 		if ($ext == "ogg" || $ext == "OGG") {
@@ -417,8 +457,7 @@ function print_albums_by_artist($artist) {
 	print( get_rating($artist) . "</p><ol>");
 	$loadmisc = 0;
 	for ($i=0; $i<sizeof($albums); $i++) {
-		list($artist, $album) = preg_split("/\//", $albums[$i]);
-		print("<li>");
+		list($artist, $album) = preg_split("/\//", $albums[$i], 2);
 		print_album($artist, $album);
 	}
 	if (!$loadmisc) {
@@ -432,7 +471,7 @@ function print_albums_by_search($search) {
 	print("<center><big><b>Matching Artists or Albums</b></big></center><ol>");
 	print("<ol>");
 	for ($i=0; $i<sizeof($albums); $i++) {
-		list($artist, $album) = preg_split("/\//", $albums[$i]);
+		list($artist, $album) = split2($albums[$i]);
 		print_artist($artist);
 		print_album($artist, $album);
 	}
@@ -448,7 +487,7 @@ function print_songs_by_album($artist, $album) {
 	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> Wikipedia</a><br></p>");
 	$songs = get_songs_by_album($artist, $album);
 	for ($i=0; $i<sizeof($songs); $i++) {
-		list($artist, $album, $song) = preg_split("/\//", $songs[$i]);
+		list($artist, $album, $song) = split3($songs[$i]);
 		print_song($artist, $album, $song);
 	}
 	if ($JPLAYER_LIST != "") {
@@ -456,8 +495,8 @@ function print_songs_by_album($artist, $album) {
 	}
 	$size = get_size_of_album($artist, $album);
         print("<p align=right>
-<a href=?playlist=1&artist=" . urlencode($artist) . "&album=" . urlencode($album) . "><img src=control_play_blue.png border=0>&nbsp;play album</a><br>
-<a href=?download_album=1&artist=" . urlencode($artist) . "&album=" . urlencode($album) . "><img src=disk.png border=0>&nbsp;download</a> $size
+<a href=?playlist=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=control_play_blue.png border=0>&nbsp;play album</a><br>
+<a href=?download_album=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=disk.png border=0>&nbsp;download</a> $size
 	");
 }
 
@@ -466,7 +505,7 @@ function print_misc_songs_by_artist($artist) {
 	print("<center><img src=group.png>&nbsp;<big><b>$artist</b></big><br><img src=music.png>&nbsp;<b>Miscellaneous</b></center><br>");
 	$songs = get_songs_by_album($artist);
 	for ($i=0; $i<sizeof($songs); $i++) {
-		list($artist, $album, $song) = preg_split("/\//", $songs[$i]);
+		list($artist, $album, $song) = split3($songs[$i]);
 		print_song($artist, $album, $song);
 	}
 	if ($JPLAYER_LIST != "") {
@@ -480,7 +519,7 @@ function print_songs_by_search($search) {
         print("<ol>");
 	$songs = get_all_songs($search);
 	for ($i=0; $i<sizeof($songs); $i++) {
-		list($artist, $album, $song) = preg_split("/\//", $songs[$i]);
+		list($artist, $album, $song) = split3($songs[$i]);
 		//print_artist($artist);
 		//print_album($artist, $album);
 		print_song($artist, $album, $song);
