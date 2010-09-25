@@ -486,6 +486,7 @@ function print_songs_by_album($artist, $album) {
 	$wiki = preg_replace("/\+/", "_", $wiki);
 	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> Wikipedia</a><br></p>");
 	$songs = get_songs_by_album($artist, $album);
+	print_album_cover($songs[0]);
 	for ($i=0; $i<sizeof($songs); $i++) {
 		list($artist, $album, $song) = split3($songs[$i]);
 		print_song($artist, $album, $song);
@@ -504,6 +505,7 @@ function print_misc_songs_by_artist($artist) {
 	global $JPLAYER_LIST, $JPLAYER_OGG;
 	print("<center><img src=group.png>&nbsp;<big><b>$artist</b></big><br><img src=music.png>&nbsp;<b>Miscellaneous</b></center><br>");
 	$songs = get_songs_by_album($artist);
+	print_album_cover($songs[0]);
 	for ($i=0; $i<sizeof($songs); $i++) {
 		list($artist, $album, $song) = split3($songs[$i]);
 		print_song($artist, $album, $song);
@@ -529,6 +531,18 @@ function print_songs_by_search($search) {
 		include("jplayer.php");
 	}
 	print("</ol>");
+}
+
+function print_album_cover($mp3) {
+	$dir = "/var/lib/musica/tmp";
+	$output = `eyeD3 -i $dir "/usr/share/musica/music/$mp3" 2>&1`;
+	$output = preg_replace("/.*Writing /", "", $output);
+	list($filename, $rest) = preg_split("/\.\.\./", $output);
+	if (file_exists($filename)) {
+		$img = "<center><img src=data:image/gif;base64," . base64_encode(file_get_contents("$filename")) . $img . "></center><br>";
+		unlink($filename);
+		print($img);
+	}
 }
 
 

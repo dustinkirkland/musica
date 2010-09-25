@@ -2,6 +2,9 @@ musica (2.7) unreleased; urgency=low
 
   * jplayer.php, jplayer/js/jquery.min.js: embed local copy of this,
     for offline use
+  * debian/control, debian/dirs, debian/postinst, index.php: display
+    album art embedded in id3v2 tags; currently shelling out to use
+    eyeD3 utility; when php's libraries catch up, this should be deprecated
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 16 Sep 2010 14:11:26 -0700
 
