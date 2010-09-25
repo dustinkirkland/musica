@@ -1,4 +1,4 @@
-musica (2.7) unreleased; urgency=low
+musica (2.7-0ubuntu1) maverick; urgency=low
 
   * jplayer.php, jplayer/js/jquery.min.js: embed local copy of this,
     for offline use
@@ -10,7 +10,7 @@ musica (2.7) unreleased; urgency=low
     music player out to a new window/tab; try to get player more centered
   * debian/install, index.php, popout.png: add popout icon
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 16 Sep 2010 14:11:26 -0700
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 25 Sep 2010 11:23:44 -0700
 
 musica (2.6-0ubuntu1) maverick; urgency=low
 
