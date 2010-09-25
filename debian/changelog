@@ -1,6 +1,7 @@
 musica (2.7) unreleased; urgency=low
 
-  * UNRELEASED
+  * jplayer.php, jplayer/js/jquery.min.js: embed local copy of this,
+    for offline use
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 16 Sep 2010 14:11:26 -0700
 
