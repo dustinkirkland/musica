@@ -5,6 +5,7 @@ musica (2.7) unreleased; urgency=low
   * debian/control, debian/dirs, debian/postinst, index.php: display
     album art embedded in id3v2 tags; currently shelling out to use
     eyeD3 utility; when php's libraries catch up, this should be deprecated
+  * jplayer.php: don't autoplay, per pgraner/jfo request
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 16 Sep 2010 14:11:26 -0700
 

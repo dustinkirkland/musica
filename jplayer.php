@@ -34,7 +34,7 @@ $(document).ready(function(){
 	$("#jquery_jplayer").jPlayer({
 		ready: function() {
 			displayPlayList();
-			playListInit(true); // Parameter is a boolean for autoplay.
+			playListInit(false); // Parameter is a boolean for autoplay.
 		},
 		nativeSupport: false,
 		customCssIds: false,
