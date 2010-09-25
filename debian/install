@@ -1,12 +1,5 @@
-book_open.png usr/share/musica
-cd.png usr/share/musica
-control_play_blue.png usr/share/musica
-disk.png usr/share/musica
-group.png usr/share/musica
+*.png usr/share/musica
 *.php usr/share/musica
 jplayer/* usr/share/musica
-music.png usr/share/musica
 favicon.ico usr/share/musica
-star_on.png usr/share/musica
-star_off.png usr/share/musica
 debian/apache.conf  etc/musica
