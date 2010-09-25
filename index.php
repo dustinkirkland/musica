@@ -496,13 +496,14 @@ function print_songs_by_album($artist, $album) {
 	}
 	$size = get_size_of_album($artist, $album);
         print("<p align=right>
+<a target=_new href=" . $_SERVER["REQUEST_URI"] . "&popout=1><img src=control_play_blue.png border=0>&nbsp;play in a new window</a><br>
 <a href=?playlist=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=control_play_blue.png border=0>&nbsp;play album</a><br>
 <a href=?download_album=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=disk.png border=0>&nbsp;download</a> $size
 	");
 }
 
 function print_misc_songs_by_artist($artist) {
-	global $JPLAYER_LIST, $JPLAYER_OGG;
+	global $JPLAYER_LIST, $JPLAYER_OGG, $_SERVER;
 	print("<center><img src=group.png>&nbsp;<big><b>$artist</b></big><br><img src=music.png>&nbsp;<b>Miscellaneous</b></center><br>");
 	$songs = get_songs_by_album($artist);
 	print_album_cover($songs[0]);
@@ -513,7 +514,9 @@ function print_misc_songs_by_artist($artist) {
 	if ($JPLAYER_LIST != "") {
 		include("jplayer.php");
 	}
-	print("<p align=right><a href=?playlist=1&artist=" . urlencode($artist) . "><img src=control_play_blue.png border=0>&nbsp;play all by artist</a></p> ");
+	print("<p align=right>
+<a target=_new href=" . $_SERVER["REQUEST_URI"] . "&popout=1><img src=control_play_blue.png border=0>&nbsp;play in a new window</a><br>
+<a href=?playlist=1&artist=" . urlencode($artist) . "><img src=control_play_blue.png border=0>&nbsp;play all by artist</a></p> ");
 }
 
 function print_songs_by_search($search) {

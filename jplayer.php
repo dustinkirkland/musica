@@ -10,6 +10,12 @@
  *
  * Customized by Dustin Kirkland <dustin.kirkland@gmail.com>
  */
+
+if (isset($_REQUEST["popout"])) {
+	$autoplay = "true";
+} else {
+	$autoplay = "false";
+}
 ?>
 
 <!-- local copy of http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js -->
@@ -34,7 +40,7 @@ $(document).ready(function(){
 	$("#jquery_jplayer").jPlayer({
 		ready: function() {
 			displayPlayList();
-			playListInit(false); // Parameter is a boolean for autoplay.
+			playListInit(<?php echo $autoplay; ?>); // Parameter is a boolean for autoplay.
 		},
 		nativeSupport: false,
 		customCssIds: false,
@@ -111,6 +117,7 @@ $(document).ready(function(){
 });
 -->
 </script>
+<table border=0 width=100%><tr><td>&nbsp;</td><td width=1>
 		<div id="jquery_jplayer"></div>
 
 		<div class="jp-playlist-player">
@@ -146,3 +153,4 @@ $(document).ready(function(){
 				</ul>
 			</div>
 		</div>
+</td><td>&nbsp;</td></tr></table>

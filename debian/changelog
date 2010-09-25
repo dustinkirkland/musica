@@ -6,6 +6,8 @@ musica (2.7) unreleased; urgency=low
     album art embedded in id3v2 tags; currently shelling out to use
     eyeD3 utility; when php's libraries catch up, this should be deprecated
   * jplayer.php: don't autoplay, per pgraner/jfo request
+  * index.php, jplayer.php: add a "pop-out" functionality, for popping the
+    music player out to a new window/tab; try to get player more centered
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 16 Sep 2010 14:11:26 -0700
 
