@@ -542,7 +542,7 @@ function print_album_cover($mp3) {
 	$output = preg_replace("/.*Writing /", "", $output);
 	list($filename, $rest) = preg_split("/\.\.\./", $output);
 	if (file_exists($filename)) {
-		$img = "<center><img src=data:image/gif;base64," . base64_encode(file_get_contents("$filename")) . $img . "></center><br>";
+		$img = "<center><img width=200 src=data:image/gif;base64," . base64_encode(file_get_contents("$filename")) . $img . "></center><br>";
 		unlink($filename);
 		print($img);
 	}

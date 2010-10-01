@@ -1,6 +1,6 @@
 musica (2.8) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php: constrain the size of the album art (some are too big)
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 25 Sep 2010 11:23:49 -0700
 
