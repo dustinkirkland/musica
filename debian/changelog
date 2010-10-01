@@ -1,3 +1,9 @@
+musica (2.9) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 01 Oct 2010 11:29:03 -0700
+
 musica (2.8-0ubuntu1) natty; urgency=low
 
   * index.php: constrain the size of the album art (some are too big)
