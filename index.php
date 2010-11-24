@@ -537,15 +537,54 @@ function print_songs_by_search($search) {
 }
 
 function print_album_cover($mp3) {
-	$dir = "/var/lib/musica/tmp";
-	$output = `eyeD3 -i $dir "/usr/share/musica/music/$mp3" 2>&1`;
-	$output = preg_replace("/.*Writing /", "", $output);
-	list($filename, $rest) = preg_split("/\.\.\./", $output);
-	if (file_exists($filename)) {
-		$img = "<center><img width=200 src=data:image/gif;base64," . base64_encode(file_get_contents("$filename")) . $img . "></center><br>";
-		unlink($filename);
-		print($img);
+	$width = 200;
+	$dirname = "music/" . dirname($mp3);
+	$js = "src = [";
+	$images = 0;
+	$d = opendir($dirname);
+	while ( ($f = readdir($d)) !== false ) {
+		// This should really be done in the get_songs_by_album() function
+		if (exif_imagetype("$dirname/$f")) {
+			if ($images++ > 0) {
+				$js .= ",";
+			}
+			$image = "$dirname/$f";
+			$js .= "'" . $image . "'";
+		}
 	}
+	closedir($d);
+	$js .= "]";
+	if ($images >= 1) {
+		# From http://www.javascriptkit.com/script/script2/incrementslide.shtml
+		print("
+<script>
+" . $js . "
+pics=[]; i=0;
+function switchAd() {
+  var n=(i+1)%src.length;
+  if (pics[n] && (pics[n].complete || pics[n].complete==null)) {
+    document['albumart'].src = pics[i=n].src;
+  }
+  pics[n=(i+1)%src.length] = new Image;
+  pics[n].src = src[n];
+  setTimeout('switchAd()',4000);
+} onload = function(){
+  if (document.images)
+    switchAd();
+}
+</script>");
+		$img = "<center><img name=albumart width=$width src='$image'></center><br>";
+	} else {
+		$dir = "/var/lib/musica/tmp";
+		$output = `eyeD3 -i $dir "/usr/share/musica/music/$mp3" 2>&1`;
+		$output = preg_replace("/.*Writing /", "", $output);
+		list($filename, $rest) = preg_split("/\.\.\./", $output);
+		if (file_exists($filename)) {
+			$img = "<center><img width=$width src=data:image/gif;base64," . base64_encode(file_get_contents("$filename")) . $img . "></center><br>";
+			unlink($filename);
+		}
+	}
+	print($img);
 }
 
 

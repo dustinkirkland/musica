@@ -1,8 +1,10 @@
 musica (2.9) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php: support album art images in the directory with music; supports
+    anything we can detect as an image;  if there's more than one, rotate through
+    them in a slideshow; LP: #681031
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 01 Oct 2010 11:29:03 -0700
+ -- Dustin Kirkland <kirkland@dustinkirkland.com>  Wed, 24 Nov 2010 12:13:02 -0600
 
 musica (2.8-0ubuntu1) natty; urgency=low
 
