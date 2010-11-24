@@ -5,7 +5,7 @@ musica (2.9) unreleased; urgency=low
     them in a slideshow; LP: #681031
   * support more than one level in the music tree, LP: #293822, LP: #640821
 
- -- Dustin Kirkland <kirkland@dustinkirkland.com>  Wed, 24 Nov 2010 12:16:12 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 24 Nov 2010 12:20:48 -0600
 
 musica (2.8-0ubuntu1) natty; urgency=low
 
