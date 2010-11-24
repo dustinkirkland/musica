@@ -3,8 +3,9 @@ musica (2.9) unreleased; urgency=low
   * index.php: support album art images in the directory with music; supports
     anything we can detect as an image;  if there's more than one, rotate through
     them in a slideshow; LP: #681031
+  * support more than one level in the music tree, LP: #293822, LP: #640821
 
- -- Dustin Kirkland <kirkland@dustinkirkland.com>  Wed, 24 Nov 2010 12:13:02 -0600
+ -- Dustin Kirkland <kirkland@dustinkirkland.com>  Wed, 24 Nov 2010 12:16:12 -0600
 
 musica (2.8-0ubuntu1) natty; urgency=low
 
