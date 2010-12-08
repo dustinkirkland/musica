@@ -204,8 +204,9 @@ function get_all_songs($search="", $rating=0) {
 		$artists = get_all_artists();
 	}
 	$songs = array();
+	$images = array();
 	for ($i=0; $i<sizeof($artists); $i++) {
-		$s = get_songs_by_album($artists[$i]);
+		list($s, $images) = get_songs_by_album($artists[$i]);
 		for ($j=0; $j<sizeof($s); $j++) {
 			list($artist, $album, $song) = split3($s[$j]);
 			if (!$search || preg_match("/$search/", $song)) {
@@ -218,7 +219,7 @@ function get_all_songs($search="", $rating=0) {
 	$albums = get_all_albums();
 	for ($i=0; $i<sizeof($albums); $i++) {
 		list($artist, $album) = split2($albums[$i]);
-		$s = get_songs_by_album($artist, $album);
+		list($s, $images) = get_songs_by_album($artist, $album);
 		for ($j=0; $j<sizeof($s); $j++) {
 			list($artist, $album, $song) = split3($s[$j]);
 			if (!$search || preg_match("/$search/i", $song)) {
@@ -302,23 +303,29 @@ function set_rating($artist, $rating) {
 
 function get_songs_by_album($artist, $album="") {
 	$songs = array();
+	$images = array();
 	if (is_dir("music/$artist/$album")) {
 		if ($dir = opendir("music/$artist/$album")) {
-			while (($song = readdir($dir)) !== false){
-				if (is_song("music/$artist/$album/$song") && visible($artist) && visible($album) && visible($song)) {
-					array_push($songs, "$artist/$album/$song");
+			while (($file = readdir($dir)) !== false){
+				if (visible($artist) && visible($album) && visible($file)) {
+					if (is_song("music/$artist/$album/$file")) {
+						array_push($songs, "$artist/$album/$file");
+					} elseif (exif_imagetype("music/$artist/$album/$file")) {
+						array_push($images, "music/$artist/$album/$file");
+					}
 				}
 			}
 			closedir($dir);
 		}
 	}
 	sort($songs);
-	return $songs;
+	return array($songs, $images);
 }
 
 function get_songs_by_artist($artist) {
 	$songs = array();
-	$s = get_songs_by_album($artist);
+	$images = array();
+	list($s, $images) = get_songs_by_album($artist);
 	for ($i=0; $i<sizeof($s); $i++) {
 		list($artist, $album, $song) = split3($s[$i]);
 		if (!$search || preg_match("/$search/", $song)) {
@@ -330,7 +337,7 @@ function get_songs_by_artist($artist) {
 	$albums = get_albums_by_artist($artist);
 	for ($i=0; $i<sizeof($albums); $i++) {
 		list($artist, $album) = split2($albums[$i]);
-		$s = get_songs_by_album($artist, $album);
+		list($s, $images) = get_songs_by_album($artist, $album);
 		for ($j=0; $j<sizeof($s); $j++) {
 			list($artist, $album, $song) = split3($s[$j]);
 			if (!$search || preg_match("/$search/i", $song)) {
@@ -345,7 +352,9 @@ function get_songs_by_artist($artist) {
 }
 
 function get_size_of_album($artist, $album) {
-	$songs = get_songs_by_album($artist, $album);
+	$songs = array();
+	$images = array();
+	list($songs, $images) = get_songs_by_album($artist, $album);
 	$size = 0;
 	for ($i=0; $i<sizeof($songs); $i++) {
 		$size += filesize("music/$songs[$i]");
@@ -485,8 +494,8 @@ function print_songs_by_album($artist, $album) {
 	$wiki = urlencode($wiki);
 	$wiki = preg_replace("/\+/", "_", $wiki);
 	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> Wikipedia</a><br></p>");
-	$songs = get_songs_by_album($artist, $album);
-	print_album_cover($songs[0]);
+	list($songs, $images) = get_songs_by_album($artist, $album);
+	print_album_cover($images, "$artist/$album");
 	for ($i=0; $i<sizeof($songs); $i++) {
 		list($artist, $album, $song) = split3($songs[$i]);
 		print_song($artist, $album, $song);
@@ -505,8 +514,8 @@ function print_songs_by_album($artist, $album) {
 function print_misc_songs_by_artist($artist) {
 	global $JPLAYER_LIST, $JPLAYER_OGG, $_SERVER;
 	print("<center><img src=group.png>&nbsp;<big><b>$artist</b></big><br><img src=music.png>&nbsp;<b>Miscellaneous</b></center><br>");
-	$songs = get_songs_by_album($artist);
-	print_album_cover($songs[0]);
+	list($songs, $images) = get_songs_by_album($artist);
+	print_album_cover($images, $artist);
 	for ($i=0; $i<sizeof($songs); $i++) {
 		list($artist, $album, $song) = split3($songs[$i]);
 		print_song($artist, $album, $song);
@@ -536,47 +545,39 @@ function print_songs_by_search($search) {
 	print("</ol>");
 }
 
-function print_album_cover($mp3) {
+function print_album_cover($images, $dir) {
 	$width = 200;
-	$dirname = "music/" . dirname($mp3);
 	$js = "src = [";
-	$images = 0;
-	$d = opendir($dirname);
-	while ( ($f = readdir($d)) !== false ) {
-		// This should really be done in the get_songs_by_album() function
-		if (exif_imagetype("$dirname/$f")) {
-			if ($images++ > 0) {
-				$js .= ",";
-			}
-			$image = "$dirname/$f";
-			$js .= "'" . $image . "'";
+	for ($i=0; $i<sizeof($images); $i++) {
+		if ($i > 0) {
+			$js .= ",";
 		}
+		$js .= "'" . $images[$i] . "'";
 	}
-	closedir($d);
 	$js .= "]";
-	if ($images >= 1) {
+	if ($i>= 1) {
 		# From http://www.javascriptkit.com/script/script2/incrementslide.shtml
 		print("
 <script>
 " . $js . "
 pics=[]; i=0;
-function switchAd() {
+function switch_pic() {
   var n=(i+1)%src.length;
   if (pics[n] && (pics[n].complete || pics[n].complete==null)) {
     document['albumart'].src = pics[i=n].src;
   }
   pics[n=(i+1)%src.length] = new Image;
   pics[n].src = src[n];
-  setTimeout('switchAd()',4000);
+  setTimeout('switch_pic()',4000);
 } onload = function(){
   if (document.images)
-    switchAd();
+    switch_pic();
 }
 </script>");
-		$img = "<center><img name=albumart width=$width src='$image'></center><br>";
+		$img = "<center><img name=albumart width=$width src='$images[0]'></center><br>";
 	} else {
-		$dir = "/var/lib/musica/tmp";
-		$output = `eyeD3 -i $dir "/usr/share/musica/music/$mp3" 2>&1`;
+		$tmp = "/var/lib/musica/tmp";
+		$output = `eyeD3 -i $tmp "/usr/share/musica/music/$dir" 2>&1`;
 		$output = preg_replace("/.*Writing /", "", $output);
 		list($filename, $rest) = preg_split("/\.\.\./", $output);
 		if (file_exists($filename)) {
@@ -783,7 +784,7 @@ if ($playlist) {
 		array_push($songs, "$artist/$album/$song");
 		$filename = urlencode($artist) . "_" . urlencode($album) . "_" . urlencode($song) . ".m3u";
 	} elseif ($album) {
-		$songs = get_songs_by_album($artist, $album);
+		list($songs, $images) = get_songs_by_album($artist, $album);
 		$filename = urlencode($artist) . "_" . urlencode($album) . ".m3u";
 	} elseif ($artist) {
 		$songs = get_songs_by_artist($artist);
