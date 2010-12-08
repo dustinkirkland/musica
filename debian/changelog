@@ -1,3 +1,9 @@
+musica (2.11) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 08 Dec 2010 00:13:28 -0600
+
 musica (2.10-0ubuntu1) natty; urgency=low
 
   * index.php: speed up album reads a bit by saving an opendir() call
