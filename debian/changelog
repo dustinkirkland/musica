@@ -1,9 +1,9 @@
-musica (2.10) unreleased; urgency=low
+musica (2.10-0ubuntu1) natty; urgency=low
 
   * index.php: speed up album reads a bit by saving an opendir() call
     and corresponding directory scan
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 08 Dec 2010 00:04:24 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 08 Dec 2010 00:12:54 -0600
 
 musica (2.9-0ubuntu1) natty; urgency=low
 
