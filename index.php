@@ -277,9 +277,6 @@ function get_rating($artist) {
 	for ($i=1; $i<=$r; $i++) {
 		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . "><img border=0 src=icons/star.png></a> ";
 	}
-	for ($i=$r+1; $i<=5; $i++) {
-		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . "><img border=0 src=icons/star_off.png></a> ";
-	}
 	return $str;
 }
 
@@ -443,9 +440,6 @@ function print_artists($search="") {
 		print("<li><a href=?playlist=$i target=_songs>");
 		for ($j=1; $j<=$i; $j++) {
 			print("<img border=0 src=icons/star.png>");
-		}
-		for ($j=$i+1; $j<=5; $j++) {
-			print("<img border=0 src=icons/star_off.png>");
 		}
 		print("</a></li>");
 	}

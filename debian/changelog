@@ -6,7 +6,9 @@ musica (2.11) unreleased; urgency=low
     star_off.png, star_on.png:
     - use the famfamfam-silk package for icons, rather than embedding them
       in this project directly
-  * index.php: use icon for help link
+  * index.php:
+    - use icon for help link
+    - drop star_off.png
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 08 Dec 2010 00:13:28 -0600
 
