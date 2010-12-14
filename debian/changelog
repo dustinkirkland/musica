@@ -1,3 +1,9 @@
+musica (2.12) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 14 Dec 2010 11:49:53 -0600
+
 musica (2.11-0ubuntu1) natty; urgency=low
 
   * book_open.png, cd.png, control_play_blue.png, debian/control,
