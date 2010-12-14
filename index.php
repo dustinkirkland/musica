@@ -661,7 +661,7 @@ if ($top) {
       <img src=icons/music.png>&nbsp;<b>Songs ($songs)</b>
     </td>
     <td width=1%>
-      <b><a href=?about=1 target=_songs title='About Musica'>?</a></b>
+      <a href=?about=1 target=_songs title='About Musica'><img src=icons/help.png></a>
     </td>
   </tr>
   <tr align=center>
