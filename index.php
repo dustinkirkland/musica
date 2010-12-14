@@ -275,10 +275,10 @@ function get_rating($artist) {
 	}
 	$str = "";
 	for ($i=1; $i<=$r; $i++) {
-		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . "><img border=0 src=star_on.png></a> ";
+		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . "><img border=0 src=icons/star.png></a> ";
 	}
 	for ($i=$r+1; $i<=5; $i++) {
-		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . "><img border=0 src=star_off.png></a> ";
+		$str .= "<a href=?rating=$i&artist=" . urlencode($artist) . "><img border=0 src=icons/star_off.png></a> ";
 	}
 	return $str;
 }
@@ -397,14 +397,14 @@ function get_artist_ratings() {
 function print_artist($artist) {
 	if (is_dir("music/$artist") && visible($artist)) {
 		$href = "?artist=" . urlencode($artist);
-		print("<li><a href=\"$href\" target=_albums><img src=group.png>&nbsp;$artist</a></li>\n");
+		print("<li><a href=\"$href\" target=_albums><img src=icons/group.png>&nbsp;$artist</a></li>\n");
 	}
 }
 
 function print_album($artist, $album) {
 	if (visible($artist) && visible($album) && isset($album)) {
 		$href = "?artist=" . urlencode($artist) . "&album=" . urlencode_album($album);
-		print("<li><a href=$href target=_songs><img border=0 src=cd.png>&nbsp;$album</a><br>");
+		print("<li><a href=$href target=_songs><img border=0 src=icons/cd.png>&nbsp;$album</a><br>");
 	}
 }
 
@@ -418,8 +418,8 @@ function print_song($artist, $album, $song) {
 		if ($ext == "ogg" || $ext == "OGG") {
 			$JPLAYER_OGG = "true";
 		}
-		print("<a href=\"$href\"><img src=disk.png border=0></a><a href=\"?playlist=1&artist=$artist&album=$album&song=$song\">");
-		print("<img src=music.png border=0>&nbsp;" . $parts["filename"] . "</a><br>");
+		print("<a href=\"$href\"><img src=icons/disk.png border=0></a><a href=\"?playlist=1&artist=$artist&album=$album&song=$song\">");
+		print("<img src=icons/music.png border=0>&nbsp;" . $parts["filename"] . "</a><br>");
 		$JPLAYER_LIST .= "{name:\"" . $parts["filename"] . "\"," . $parts["extension"] . ":\"$href\"},\n";
 	}
 	print("</noscript>");
@@ -442,10 +442,10 @@ function print_artists($search="") {
 	for ($i=5; $i>=1; $i--) {
 		print("<li><a href=?playlist=$i target=_songs>");
 		for ($j=1; $j<=$i; $j++) {
-			print("<img border=0 src=star_on.png>");
+			print("<img border=0 src=icons/star.png>");
 		}
 		for ($j=$i+1; $j<=5; $j++) {
-			print("<img border=0 src=star_off.png>");
+			print("<img border=0 src=icons/star_off.png>");
 		}
 		print("</a></li>");
 	}
@@ -458,11 +458,11 @@ function print_albums_by_artist($artist) {
 		set_rating($artist, $rating);
 	}
 	$albums = get_albums_by_artist($artist);
-	print("<p align=center><img src=group.png>&nbsp;<big><b>$artist</b></big><br>");
+	print("<p align=center><img src=icons/group.png>&nbsp;<big><b>$artist</b></big><br>");
 	$wiki = preg_replace("/\s*\(.*/", "", $artist);
 	$wiki = urlencode($wiki);
 	$wiki = preg_replace("/\+/", "_", $wiki);
-	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> Wikipedia</a><br>");
+	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=icons/book_open.png border=0> Wikipedia</a><br>");
 	print( get_rating($artist) . "</p><ol>");
 	$loadmisc = 0;
 	for ($i=0; $i<sizeof($albums); $i++) {
@@ -489,11 +489,11 @@ function print_albums_by_search($search) {
 
 function print_songs_by_album($artist, $album) {
 	global $JPLAYER_LIST, $JPLAYER_OGG;
-	print("<p align=center><img src=group.png>&nbsp;<b><big>$artist</b></big><br><img src=cd.png>&nbsp;<b>$album</b><br>\n");
+	print("<p align=center><img src=icons/group.png>&nbsp;<b><big>$artist</b></big><br><img src=icons/cd.png>&nbsp;<b>$album</b><br>\n");
 	$wiki = preg_replace("/\s*\(.*/", "", $album);
 	$wiki = urlencode($wiki);
 	$wiki = preg_replace("/\+/", "_", $wiki);
-	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=book_open.png border=0> Wikipedia</a><br></p>");
+	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=icons/book_open.png border=0> Wikipedia</a><br></p>");
 	list($songs, $images) = get_songs_by_album($artist, $album);
 	print_album_cover($images, "$artist/$album");
 	for ($i=0; $i<sizeof($songs); $i++) {
@@ -505,15 +505,15 @@ function print_songs_by_album($artist, $album) {
 	}
 	$size = get_size_of_album($artist, $album);
         print("<p align=right>
-<a target=_new href=" . $_SERVER["REQUEST_URI"] . "&popout=1><img src=popout.png border=0>&nbsp;play in a new window</a><br>
-<a href=?playlist=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=control_play_blue.png border=0>&nbsp;play album</a><br>
-<a href=?download_album=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=disk.png border=0>&nbsp;download</a> $size
+<a target=_new href=" . $_SERVER["REQUEST_URI"] . "&popout=1><img src=icons/popout.png border=0>&nbsp;play in a new window</a><br>
+<a href=?playlist=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=icons/control_play_blue.png border=0>&nbsp;play album</a><br>
+<a href=?download_album=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=icons/disk.png border=0>&nbsp;download</a> $size
 	");
 }
 
 function print_misc_songs_by_artist($artist) {
 	global $JPLAYER_LIST, $JPLAYER_OGG, $_SERVER;
-	print("<center><img src=group.png>&nbsp;<big><b>$artist</b></big><br><img src=music.png>&nbsp;<b>Miscellaneous</b></center><br>");
+	print("<center><img src=icons/group.png>&nbsp;<big><b>$artist</b></big><br><img src=icons/music.png>&nbsp;<b>Miscellaneous</b></center><br>");
 	list($songs, $images) = get_songs_by_album($artist);
 	print_album_cover($images, $artist);
 	for ($i=0; $i<sizeof($songs); $i++) {
@@ -524,8 +524,8 @@ function print_misc_songs_by_artist($artist) {
 		include("jplayer.php");
 	}
 	print("<p align=right>
-<a target=_new href=" . $_SERVER["REQUEST_URI"] . "&popout=1><img src=popout.png border=0>&nbsp;play in a new window</a><br>
-<a href=?playlist=1&artist=" . urlencode($artist) . "><img src=control_play_blue.png border=0>&nbsp;play all by artist</a></p> ");
+<a target=_new href=" . $_SERVER["REQUEST_URI"] . "&popout=1><img src=icons/popout.png border=0>&nbsp;play in a new window</a><br>
+<a href=?playlist=1&artist=" . urlencode($artist) . "><img src=icons/control_play_blue.png border=0>&nbsp;play all by artist</a></p> ");
 }
 
 function print_songs_by_search($search) {
@@ -652,13 +652,13 @@ if ($top) {
 <table border=0 width=100% cellpadding=0 cellspacing=0>
   <tr align=center>
     <td width=33%>
-      <img src=group.png>&nbsp;<b>Artists ($artists)</b><br>
+      <img src=icons/group.png>&nbsp;<b>Artists ($artists)</b><br>
     </td>
     <td width=33%>
-      <img src=cd.png>&nbsp;<b>Albums ($albums)</b>
+      <img src=icons/cd.png>&nbsp;<b>Albums ($albums)</b>
     </td>
     <td width=33%>
-      <img src=music.png>&nbsp;<b>Songs ($songs)</b>
+      <img src=icons/music.png>&nbsp;<b>Songs ($songs)</b>
     </td>
     <td width=1%>
       <b><a href=?about=1 target=_songs title='About Musica'>?</a></b>

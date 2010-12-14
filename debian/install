@@ -1,4 +1,3 @@
-*.png usr/share/musica
 *.php usr/share/musica
 jplayer/* usr/share/musica
 favicon.ico usr/share/musica

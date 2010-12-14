@@ -1,1 +1,2 @@
 etc/musica/apache.conf etc/apache2/sites-available/musica
+usr/share/icons/silk/16x16 usr/share/musica/icons

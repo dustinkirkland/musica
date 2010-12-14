@@ -1,6 +1,11 @@
-musica (2.11) unreleased; urgency=low
+musica (2.11-0ubuntu1) natty; urgency=low
 
-  * UNRELEASED
+  * book_open.png, cd.png, control_play_blue.png, debian/control,
+    debian/copyright, debian/install, debian/links, disk.png, group.png,
+    index.php, jplayer.php, musica_screenshot.png, music.png, popout.png,
+    star_off.png, star_on.png:
+    - use the famfamfam-silk package for icons, rather than embedding them
+      in this project directly
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 08 Dec 2010 00:13:28 -0600
 

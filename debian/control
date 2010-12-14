@@ -9,7 +9,7 @@ Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/musica/main
 
 Package: musica
 Architecture: all
-Depends: ${misc:Depends}, apache2, libapache2-mod-php5, eyed3
+Depends: ${misc:Depends}, apache2, libapache2-mod-php5, eyed3, famfamfam-silk
 Description: a web application for browsing and listening to your music
  Musica is a web application for browsing and listening to your music. Songs
  are organized hierarchically in folders of Artists, and sub-folders of Albums.
