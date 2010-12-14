@@ -1,4 +1,4 @@
-musica (2.11) unreleased; urgency=low
+musica (2.11-0ubuntu1) natty; urgency=low
 
   * book_open.png, cd.png, control_play_blue.png, debian/control,
     debian/copyright, debian/install, debian/links, disk.png, group.png,
@@ -10,7 +10,7 @@ musica (2.11) unreleased; urgency=low
     - use icon for help link
     - drop star_off.png
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 08 Dec 2010 00:13:28 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 14 Dec 2010 11:49:50 -0600
 
 musica (2.10-0ubuntu1) natty; urgency=low
 
