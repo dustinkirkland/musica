@@ -16,7 +16,6 @@ get-orig-source:
 
 build:
 	dh_testdir
-	cd jplayer/js; mtasc Jplayer.as -swf Jplayer.swf -main -header 120:20:40 -v -version 8 -group
 
 clean:
 	rm -rf debian/musica debian/files debian/musica.debhelper.log jplayer/js/Jplayer.swf

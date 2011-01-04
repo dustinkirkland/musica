@@ -1,8 +1,12 @@
-musica (2.12) unreleased; urgency=low
+musica (2.12-0ubuntu1) natty; urgency=low
 
-  * UNRELEASED
+  * debian/control, debian/dirs, debian/links, debian/rules,
+    jplayer/js/Jplayer.as, jplayer/js/jquery.jplayer.min.js,
+    jplayer/js/jquery.min.js, jplayer.php, === removed directory
+    jplayer/js: use jplayer and jquery from the archive, rather than
+    the ones embedded here
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 14 Dec 2010 11:49:53 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 04 Jan 2011 17:29:56 -0600
 
 musica (2.11-0ubuntu1) natty; urgency=low
 
