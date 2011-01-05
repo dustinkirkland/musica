@@ -2,6 +2,8 @@ musica (2.13) unreleased; urgency=low
 
   * index.php:
     - fix popout icon reference
+  * index.php, jplayer.php:
+    - fix download of ogg files
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 04 Jan 2011 17:30:02 -0600
 

@@ -412,8 +412,9 @@ function print_song($artist, $album, $song) {
 		$href = $PREAMBLE . urlencode($artist) . "/" . urlencode_album($album) . "/" . urlencode("$song");
 		$href = $line = preg_replace("/\+/", "%20", $href);
 		$parts = pathinfo($song);
-		if ($ext == "ogg" || $ext == "OGG") {
+		if (preg_match("/^og/i", $parts['extension'])) {
 			$JPLAYER_OGG = "true";
+			$parts['extension'] = "ogg";
 		}
 		print("<a href=\"$href\"><img src=icons/disk.png border=0></a><a href=\"?playlist=1&artist=$artist&album=$album&song=$song\">");
 		print("<img src=icons/music.png border=0>&nbsp;" . $parts["filename"] . "</a><br>");
