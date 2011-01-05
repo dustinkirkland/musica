@@ -373,7 +373,7 @@ function get_counts() {
 	$artists = @file("/var/lib/musica/artists.count");
 	$albums = @file("/var/lib/musica/albums.count");
 	$songs = @file("/var/lib/musica/songs.count");
-	$counts = array($artists[0], $albums[0], $songs[0]);
+	$counts = array(rtrim($artists[0]), rtrim($albums[0]), rtrim($songs[0]));
 	return $counts;
 }
 

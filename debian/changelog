@@ -2,6 +2,7 @@ musica (2.13) unreleased; urgency=low
 
   * index.php:
     - fix popout icon reference
+    - rtrim whitespace on stats
   * index.php, jplayer.php:
     - fix download of ogg files (streaming of ogg not working yet)
 
