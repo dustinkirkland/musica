@@ -1,6 +1,7 @@
 musica (2.13) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php:
+    - fix popout icon reference
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 04 Jan 2011 17:30:02 -0600
 
