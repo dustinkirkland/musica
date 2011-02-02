@@ -1,6 +1,9 @@
 musica (2.14) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/links, index.php, jplayer.php: rename "icons" directory to "silk",
+    gives some credit to the silk project and some apache2 deployments
+    include an alias for the "icons" directory which breaks musica's
+    icons; "silk" should be less commonly used as an alias
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 04 Jan 2011 21:17:08 -0600
 
