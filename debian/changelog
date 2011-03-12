@@ -1,9 +1,9 @@
-musica (2.15) unreleased; urgency=low
+musica (2.15-0ubuntu1) natty; urgency=low
 
   [ Jeff Lane ]
   * README: fix path, LP: #733659
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 02 Feb 2011 09:36:18 -0800
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 12 Mar 2011 05:55:51 +0000
 
 musica (2.14-0ubuntu1) natty; urgency=low
 
