@@ -6,6 +6,8 @@ musica (2.16) unreleased; urgency=low
     - artist lookup is still fast enough doing the dir work, though could
       be changed too, easily
     - improve the cronjob that generates these to the correct format
+  * index.php:
+    - improve random artist/album/song support
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 12 Mar 2011 05:55:54 +0000
 

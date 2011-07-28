@@ -163,38 +163,32 @@ body {font-size: 13px; font-family: verdana,arial,helvetica,sans-serif; font-wei
 /*****************/
 
 function get_all_artists($search="") {
-	$artists = array();
-	if ($dir = opendir("music")) {
-		while (($artist = readdir($dir)) !== false) {
-			if (is_dir("music/$artist") && visible($artist)) {
-				if (!$search || preg_match("/$search/i", $artist)) {
-					array_push($artists, $artist);
-				}
-			}
+	$artists = @file("/var/lib/musica/artists");
+	if ($search) {
+		if ($search == "_random_") {
+			$artist = $artists[rand(0, sizeof($artists) - 1)];
+			$artists = array($artist);
+		} else {
+			$artists = preg_grep("/$search/i", $artists);
 		}
 	} else {
-		print("<b>ERROR</b><br>No music found.<br><br>Create a symlink to your music folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/music</pre>");
-		exit;
+		if (sizeof($artists) == 0) {
+			print("<b>ERROR</b><br>No music found.<br><br>Create a symlink to your music folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/music</pre>");
+			exit;
+		}
 	}
 	sort($artists);
 	return $artists;
 }
 
 function get_all_albums($search="") {
-	$albums = array();
+	$albums = @file("/var/lib/musica/albums");
 	if ($search) {
-		$contents = @file("/var/lib/musica/albums");
-		$albums = preg_grep("/.*\/.*$search/i", $contents);
-	} else {
-		$artists = get_all_artists();
-		for ($i=0; $i<sizeof($artists); $i++) {
-			$a =  get_albums_by_artist($artists[$i]);
-			for ($j=0; $j<sizeof($a); $j++) {
-				list($artist, $album) = split2($a[$j]);
-				if (!$search || preg_match("/$search/i", $album)) {
-					array_push($albums, $a[$j]);
-				}
-			}
+		if ($search == "_random_") {
+			$album = $albums[rand(0, sizeof($albums) - 1)];
+			$albums = array($album);
+		} else {
+			$albums = preg_grep("/.*\/.*$search/i", $albums);
 		}
 	}
 	sort($albums);
@@ -202,37 +196,13 @@ function get_all_albums($search="") {
 }
 
 function get_all_songs($search="", $rating=0) {
-	if ($rating) {
-		$ratings = get_all_ratings();
-		$artists = array_keys($ratings);
-	} else {
-		$artists = get_all_artists();
-	}
-	$songs = array();
-	$images = array();
+	$songs = @file("/var/lib/musica/songs");
 	if ($search) {
-		$contents = @file("/var/lib/musica/songs");
-		$songs = preg_grep("/.*\/.*\/.*$search/i", $contents);
-	} else {
-		for ($i=0; $i<sizeof($artists); $i++) {
-			list($s, $images) = get_songs_by_album($artists[$i]);
-			for ($j=0; $j<sizeof($s); $j++) {
-				list($artist, $album, $song) = split3($s[$j]);
-				if (!$rating || $ratings["$artist"] >= $rating) {
-					array_push($songs, $s[$j]);
-				}
-			}
-		}
-		$albums = get_all_albums();
-		for ($i=0; $i<sizeof($albums); $i++) {
-			list($artist, $album) = split2($albums[$i]);
-			list($s, $images) = get_songs_by_album($artist, $album);
-			for ($j=0; $j<sizeof($s); $j++) {
-				list($artist, $album, $song) = split3($s[$j]);
-				if (!$rating || $ratings["$artist"] >= $rating) {
-					array_push($songs, $s[$j]);
-				}
-			}
+		if ($search == "_random_") {
+			$song = $songs[rand(0, sizeof($songs) - 1)];
+			$songs = array($song);
+		} else {
+			$songs = preg_grep("/.*\/.*\/.*$search/i", $songs);
 		}
 	}
 	sort($songs);
@@ -374,6 +344,13 @@ function get_random_artist() {
 	return $artist;
 }
 
+function get_random_album() {
+	$artists = get_all_albums();
+	$album = $albums[rand(0, sizeof($albums) - 1)];
+	$album = preg_replace("/\\\'/", "'", $album);
+	return $album;
+}
+
 function get_counts() {
 	# Updated by an hourly cronjob
 	$artists = @file("/var/lib/musica/artists.count");
@@ -437,7 +414,7 @@ function print_artists($search="") {
 	print("<ol>");
 	$artists = get_all_artists($search);
 	for ($i=0; $i<sizeof($artists); $i++) {
-		print_artist($artists[$i]);
+		print_artist(rtrim($artists[$i]));
 	}
 	print("
 		</ol>
@@ -673,19 +650,19 @@ if ($top) {
       <form method=post action=?artist=_all target=_artists>
         <input type=text name=search>
         <input type=submit value=find>
-        <input type=submit value=all onfocus=javascript:document.forms[0].search.value=\"\"></form>
+        <input type=submit value=random onfocus=javascript:document.forms[0].search.value=\"_random_\"></form>
     </td>
     <td>
       <form method=post action=?artist=_search&album=_search target=_albums>
         <input type=text name=search>
         <input type=submit value=find>
-        <input type=submit value=all onfocus=javascript:document.forms[0].search.value=\"\"></form>
+        <input type=submit value=random onfocus=javascript:document.forms[1].search.value=\"_random_\"></form>
     </td>
     <td>
       <form method=post action=?artist=_search&album=_search&song=_search target=_songs>
         <input type=text name=search>
         <input type=submit value=find>
-        <input type=submit value=all onfocus=javascript:document.forms[0].search.value=\"\"></form>
+        <input type=submit value=random onfocus=javascript:document.forms[2].search.value=\"_random_\"></form>
     </td>
   </tr>
 </table></body>");
