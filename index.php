@@ -181,14 +181,19 @@ function get_all_artists($search="") {
 }
 
 function get_all_albums($search="") {
-	$artists = get_all_artists();
 	$albums = array();
-	for ($i=0; $i<sizeof($artists); $i++) {
-		$a =  get_albums_by_artist($artists[$i]);
-		for ($j=0; $j<sizeof($a); $j++) {
-			list($artist, $album) = split2($a[$j]);
-			if (!$search || preg_match("/$search/i", $album)) {
-				array_push($albums, $a[$j]);
+	if ($search) {
+		$contents = @file("/var/lib/musica/albums");
+		$albums = preg_grep("/.*\/.*$search/i", $contents);
+	} else {
+		$artists = get_all_artists();
+		for ($i=0; $i<sizeof($artists); $i++) {
+			$a =  get_albums_by_artist($artists[$i]);
+			for ($j=0; $j<sizeof($a); $j++) {
+				list($artist, $album) = split2($a[$j]);
+				if (!$search || preg_match("/$search/i", $album)) {
+					array_push($albums, $a[$j]);
+				}
 			}
 		}
 	}
@@ -205,24 +210,25 @@ function get_all_songs($search="", $rating=0) {
 	}
 	$songs = array();
 	$images = array();
-	for ($i=0; $i<sizeof($artists); $i++) {
-		list($s, $images) = get_songs_by_album($artists[$i]);
-		for ($j=0; $j<sizeof($s); $j++) {
-			list($artist, $album, $song) = split3($s[$j]);
-			if (!$search || preg_match("/$search/", $song)) {
+	if ($search) {
+		$contents = @file("/var/lib/musica/songs");
+		$songs = preg_grep("/.*\/.*\/.*$search/i", $contents);
+	} else {
+		for ($i=0; $i<sizeof($artists); $i++) {
+			list($s, $images) = get_songs_by_album($artists[$i]);
+			for ($j=0; $j<sizeof($s); $j++) {
+				list($artist, $album, $song) = split3($s[$j]);
 				if (!$rating || $ratings["$artist"] >= $rating) {
 					array_push($songs, $s[$j]);
 				}
 			}
 		}
-	}
-	$albums = get_all_albums();
-	for ($i=0; $i<sizeof($albums); $i++) {
-		list($artist, $album) = split2($albums[$i]);
-		list($s, $images) = get_songs_by_album($artist, $album);
-		for ($j=0; $j<sizeof($s); $j++) {
-			list($artist, $album, $song) = split3($s[$j]);
-			if (!$search || preg_match("/$search/i", $song)) {
+		$albums = get_all_albums();
+		for ($i=0; $i<sizeof($albums); $i++) {
+			list($artist, $album) = split2($albums[$i]);
+			list($s, $images) = get_songs_by_album($artist, $album);
+			for ($j=0; $j<sizeof($s); $j++) {
+				list($artist, $album, $song) = split3($s[$j]);
 				if (!$rating || $ratings["$artist"] >= $rating) {
 					array_push($songs, $s[$j]);
 				}
@@ -398,10 +404,14 @@ function print_artist($artist) {
 	}
 }
 
-function print_album($artist, $album) {
+function print_album($artist, $album, $with_artist=0) {
 	if (visible($artist) && visible($album) && isset($album)) {
 		$href = "?artist=" . urlencode($artist) . "&album=" . urlencode_album($album);
-		print("<li><a href=$href target=_songs><img border=0 src=silk/cd.png>&nbsp;$album</a><br>");
+		if ($with_artist) {
+			print("<li><a href=\"$href\" target=_songs><img src=silk/group.png>&nbsp;$artist</a><br>&nbsp;&nbsp;<a href=$href target=_songs><img border=0 src=silk/cd.png>&nbsp;$album</a><br>");
+		} else {
+			print("<li><a href=$href target=_songs><img border=0 src=silk/cd.png>&nbsp;$album</a><br>");
+		}
 	}
 }
 
@@ -475,9 +485,8 @@ function print_albums_by_search($search) {
 	print("<center><big><b>Matching Artists or Albums</b></big></center><ol>");
 	print("<ol>");
 	for ($i=0; $i<sizeof($albums); $i++) {
-		list($artist, $album) = split2($albums[$i]);
-		print_artist($artist);
-		print_album($artist, $album);
+		list($artist, $album) = split2(rtrim($albums[$i]));
+		print_album($artist, $album, 1);
 	}
 	print("</ol>");
 }
@@ -528,7 +537,7 @@ function print_songs_by_search($search) {
         print("<ol>");
 	$songs = get_all_songs($search);
 	for ($i=0; $i<sizeof($songs); $i++) {
-		list($artist, $album, $song) = split3($songs[$i]);
+		list($artist, $album, $song) = split3(rtrim($songs[$i]));
 		//print_artist($artist);
 		//print_album($artist, $album);
 		print_song($artist, $album, $song);
@@ -759,7 +768,7 @@ if ($playlist && !$artist && !$album) {
 	header("Content-type: application/download");
 	header("Content-disposition: attachment; filename=$filename");
 	for ($i=0; $i<sizeof($songs); $i++) {
-		$line = $PREAMBLE . urlencode($songs[$i]);
+		$line = $PREAMBLE . urlencode(rtrim($songs[$i]));
 		$line = preg_replace("/\+/", "%20", $line);
 		$line = preg_replace("/\%2F/", "/", $line);
 		print("$line\n");
