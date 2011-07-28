@@ -8,6 +8,8 @@ musica (2.16) unreleased; urgency=low
     - improve the cronjob that generates these to the correct format
   * index.php:
     - improve random artist/album/song support
+    - drop the ratings support; don't really have a good, persistent place
+      to store this
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 12 Mar 2011 05:55:54 +0000
 
