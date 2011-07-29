@@ -239,7 +239,7 @@ function get_all_songs($search="") {
 					parent._albums.location.href='?search=" . urlencode($album) . "&artist=_search&album=_search';
 				</script>
 			");
-			print_song_header($artist, $album);
+			print_song_header($artist, $album, $search);
 		} else {
 			$str = preg_escape($search);
 			$songs = array_rtrim(preg_grep("/.*\/.*\/.*$str/i", $songs));
@@ -272,8 +272,8 @@ function get_images_by_album($artist, $album="") {
 }
 
 function get_misc_songs_by_artist($artist) {
-	$str = "$artist/";
-	$songs = array_rtrim(preg_grep("/^$str/", @file("/var/lib/musica/songs")));
+	$str = "$artist";
+	$songs = array_rtrim(preg_grep("/^$str\//", @file("/var/lib/musica/songs")));
 	// Prune those that are part of albums
 	$songs = array_rtrim(preg_grep("/\/.*\//", $songs, PREG_GREP_INVERT));
 	return $songs;
@@ -348,12 +348,20 @@ function print_artists($search="") {
 	}
 }
 
-function print_song_header($artist, $album) {
+function print_song_header($artist, $album, $search="") {
+	global $_SERVER;
 	print("<center><table><tr><td><p align=left><img src=silk/group.png>&nbsp;<b><big>$artist</b></big><br><img src=silk/cd.png>&nbsp;<b>$album</b><br>\n");
 	$wiki = preg_replace("/\s*\(.*/", "", $album);
 	$wiki = urlencode($wiki);
 	$wiki = preg_replace("/\+/", "_", $wiki);
-	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=silk/book_open.png border=0> Wikipedia</a><br></p></td></tr></table></center>");
+	$size = get_size_of_album($artist, $album);
+	print("<center>
+		<a title='Wikipedia' target=_new href=http://en.wikipedia.org/wiki/$wiki><img src=silk/book_open.png border=0></a>
+		<a title='Launch player in a new window' target=_new href=" . $_SERVER["REQUEST_URI"] . "&search=$search&popout=1><img src=silk/application_double.png border=0></a>
+		<a title='Save playlist' href=?playlist=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=silk/control_play_blue.png border=0></a>
+		<a title='Download entire album ($size)' href=?download_album=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=silk/disk.png border=0></a>
+	       </center>
+	</p></td></tr></table></center>");
 }
 
 function print_albums_by_artist($artist) {
@@ -397,12 +405,6 @@ function print_songs_by_album($artist, $album) {
 	if ($JPLAYER_LIST != "") {
 		include("jplayer.php");
 	}
-	$size = get_size_of_album($artist, $album);
-        print("<p align=right>
-<a target=_new href=" . $_SERVER["REQUEST_URI"] . "&popout=1><img src=silk/application_double.png border=0>&nbsp;play in a new window</a><br>
-<a href=?playlist=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=silk/control_play_blue.png border=0>&nbsp;play album</a><br>
-<a href=?download_album=1&artist=" . urlencode($artist) . "&album=" . urlencode_album($album) . "><img src=silk/disk.png border=0>&nbsp;download</a> $size
-	");
 }
 
 function print_misc_songs_by_artist($artist) {
@@ -416,9 +418,6 @@ function print_misc_songs_by_artist($artist) {
 	if ($JPLAYER_LIST != "") {
 		include("jplayer.php");
 	}
-	print("<p align=right>
-<a target=_new href=" . $_SERVER["REQUEST_URI"] . "&popout=1><img src=silk/application_double.png border=0>&nbsp;play in a new window</a><br>
-<a href=?playlist=1&artist=" . urlencode($artist) . "><img src=silk/control_play_blue.png border=0>&nbsp;play all by artist</a></p> ");
 }
 
 function print_songs_by_search($search) {

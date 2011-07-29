@@ -14,6 +14,8 @@ musica (2.16) unreleased; urgency=low
     - fix image loading
     - improve performance
     - cache image list too
+  * index.php:
+    - fix popout, move control icons to top of song window
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 12 Mar 2011 05:55:54 +0000
 
