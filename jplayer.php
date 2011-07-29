@@ -75,6 +75,9 @@ $(document).ready(function(){
 			if (href == undefined) {
 				href = myPlayList[i].ogg
 			}
+			if (href == undefined) {
+				href = myPlayList[i].m4a
+			}
 			listItem += "<a id='jplayer_playlist_get_mp3_"+i+"' href='" + href + "' tabindex='1'><img src='silk/disk.png' width='12'></a> <a href='#' id='jplayer_playlist_item_"+i+"' tabindex='1'>"+ myPlayList[i].name +"</a></li>";
 			$("#jplayer_playlist ul").append(listItem);
 			$("#jplayer_playlist_item_"+i).data( "index", i ).click( function() {

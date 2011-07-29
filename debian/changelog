@@ -8,6 +8,8 @@ musica (2.17) unreleased; urgency=low
   * jplayer.php: LP: #811477
     - use the google hosted jquery.min.js until the local one in Debian/Ubuntu
       gets fixed
+  * debian/cron.hourly, index.php, jplayer.php:
+    - partial support for m4a
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 28 Jul 2011 20:23:17 -0500
 

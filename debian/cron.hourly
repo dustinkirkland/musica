@@ -7,7 +7,7 @@ f=$(mktemp)
 cd "$DIR"
 
 # Get Songs
-find -L . -type f -iname "*.mp3" -o -iname "*.oga" -o -iname "*.ogg" -o -iname "*.wav" -o -iname "*.flac" | sed "s:^\./::" | sort -u > $f
+find -L . -type f -iname "*.mp3" -o -iname "*.m4a" -o -iname "*.oga" -o -iname "*.ogg" -o -iname "*.wav" -o -iname "*.flac" | sed "s:^\./::" | sort -u > $f
 chmod 644 $f
 mv -f "$f" /var/lib/$PKG/songs
 wc -l /var/lib/$PKG/songs | awk '{print $1}' > /var/lib/$PKG/songs.count

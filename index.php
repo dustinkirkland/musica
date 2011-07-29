@@ -21,7 +21,7 @@
 */
 
 /* A list of file formats we will recognize */
-$FORMATS = array("mp3", "oga", "ogg", "wav", "flac");
+$FORMATS = array("mp3", "m4a", "oga", "ogg", "wav", "flac");
 $JPLAYER_LIST = "";
 $JPLAYER_OGG = "false";
 
