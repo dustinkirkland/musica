@@ -1,6 +1,8 @@
 musica (2.17) unreleased; urgency=low
 
-  * UNRELEASED
+  [ Serge Hallyn ]
+  * debian/cron.hourly: add -L to find options to support symlinks under
+    /usr/share/music/musica.
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 28 Jul 2011 20:23:17 -0500
 

@@ -7,25 +7,25 @@ f=$(mktemp)
 cd "$DIR"
 
 # Get Songs
-find . -type f -iname "*.mp3" -o -iname "*.oga" -o -iname "*.ogg" -o -iname "*.wav" -o -iname "*.flac" | sed "s:^\./::" | sort -u > $f
+find -L . -type f -iname "*.mp3" -o -iname "*.oga" -o -iname "*.ogg" -o -iname "*.wav" -o -iname "*.flac" | sed "s:^\./::" | sort -u > $f
 chmod 644 $f
 mv -f "$f" /var/lib/$PKG/songs
 wc -l /var/lib/$PKG/songs | awk '{print $1}' > /var/lib/$PKG/songs.count
 
 # Get Images
-find . -type f -iname "*.jpg" -o -iname "*.gif" -o -iname "*.png" -o -iname "*.tif" | sed "s:^\./::" | sort -u > $f
+find -L . -type f -iname "*.jpg" -o -iname "*.gif" -o -iname "*.png" -o -iname "*.tif" | sed "s:^\./::" | sort -u > $f
 chmod 644 $f
 mv -f "$f" /var/lib/$PKG/images
 wc -l /var/lib/$PKG/images | awk '{print $1}' > /var/lib/$PKG/images.count
 
 # Get Albums
-find . -type d | sed "s:^\./::" | grep "/" | sort -u > $f
+find -L . -type d | sed "s:^\./::" | grep "/" | sort -u > $f
 chmod 644 $f
 mv -f $f /var/lib/$PKG/albums
 wc -l /var/lib/$PKG/albums | awk '{print $1}' > /var/lib/$PKG/albums.count
 
 # Get Artists
-find . -maxdepth 1 -type d | sed "s:^\./::" | sort -u > $f
+find -L . -maxdepth 1 -type d | sed "s:^\./::" | sort -u > $f
 chmod 644 $f
 mv -f $f /var/lib/$PKG/artists
 wc -l /var/lib/$PKG/artists | awk '{print $1}' > /var/lib/$PKG/artists.count
