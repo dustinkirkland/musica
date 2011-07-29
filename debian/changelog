@@ -4,6 +4,11 @@ musica (2.17) unreleased; urgency=low
   * debian/cron.hourly: add -L to find options to support symlinks under
     /usr/share/music/musica.
 
+  [ Dustin Kirkland ]
+  * jplayer.php: LP: #811477
+    - use the google hosted jquery.min.js until the local one in Debian/Ubuntu
+      gets fixed
+
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 28 Jul 2011 20:23:17 -0500
 
 musica (2.16-0ubuntu1) oneiric; urgency=low
