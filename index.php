@@ -107,9 +107,28 @@ function split3($path) {
 	return array($artist, $album, $song);
 }
 
+
 function urlencode_album($album) {
 	// Must allow "/" in album names, for nested albums
 	return preg_replace("/%2F/", "/", urlencode($album));
+}
+
+function array_rtrim($a) {
+	// This sort() is annoyingly necessary, as preg_grep() maintains indexes of searched arrays;  this sort will flatten the result
+	sort($a);
+	for ($i=0; $i<sizeof($a); $i++) {
+		$a[$i] = rtrim($a[$i]);
+	}
+	return $a;
+}
+
+function preg_escape($str) {
+	$patterns = array('/\//', '/\^/', '/\./', '/\$/', '/\|/',
+ '/\(/', '/\)/', '/\[/', '/\]/', '/\*/', '/\+/',
+'/\?/', '/\{/', '/\}/', '/\,/');
+	$replace = array('\/', '\^', '\.', '\$', '\|', '\(', '\)',
+'\[', '\]', '\*', '\+', '\?', '\{', '\}', '\,');
+	return preg_replace($patterns, $replace, $str);
 }
 
 $top = sanity_check($_REQUEST["top"]);
@@ -162,13 +181,20 @@ body {font-size: 13px; font-family: verdana,arial,helvetica,sans-serif; font-wei
 /*****************/
 
 function get_all_artists($search="") {
-	$artists = @file("/var/lib/musica/artists");
+	$artists = array_rtrim(@file("/var/lib/musica/artists"));
 	if ($search) {
 		if ($search == "_random_") {
 			$artist = $artists[rand(0, sizeof($artists) - 1)];
 			$artists = array($artist);
+			print("
+				<script>
+					parent._albums.location.href='?artist=" . urlencode($artist) . "';
+					parent._songs.location.href='?artist=" . urlencode($artist) . "&misc=1';
+				</script>
+			");
 		} else {
-			$artists = preg_grep("/$search/i", $artists);
+			$str = preg_escape($search);
+			$artists = array_rtrim(preg_grep("/$str/i", $artists));
 		}
 	} else {
 		if (sizeof($artists) == 0) {
@@ -176,21 +202,27 @@ function get_all_artists($search="") {
 			exit;
 		}
 	}
-	sort($artists);
 	return $artists;
 }
 
 function get_all_albums($search="") {
-	$albums = @file("/var/lib/musica/albums");
+	$albums = array_rtrim(@file("/var/lib/musica/albums"));
 	if ($search) {
 		if ($search == "_random_") {
 			$album = $albums[rand(0, sizeof($albums) - 1)];
 			$albums = array($album);
+			list($artist, $album) = split2($album);
+			print("
+				<script>
+					parent._artists.location.href='?search=" . urlencode($artist) . "&artist=_all';
+					parent._songs.location.href='?artist=" . urlencode($artist) . "&album=" . urlencode($album) . "';
+				</script>
+			");
 		} else {
-			$albums = preg_grep("/.*\/.*$search/i", $albums);
+			$str = preg_escape($search);
+			$albums = array_rtrim(preg_grep("/.*\/.*$str/i", $albums));
 		}
 	}
-	sort($albums);
 	return $albums;
 }
 
@@ -200,82 +232,56 @@ function get_all_songs($search="") {
 		if ($search == "_random_") {
 			$song = $songs[rand(0, sizeof($songs) - 1)];
 			$songs = array($song);
+			list($artist, $album, $song) = split3($song);
+			print("
+				<script>
+					parent._artists.location.href='?search=" . urlencode($artist) . "&artist=_all';
+					parent._albums.location.href='?search=" . urlencode($album) . "&artist=_search&album=_search';
+				</script>
+			");
+			print_song_header($artist, $album);
 		} else {
-			$songs = preg_grep("/.*\/.*\/.*$search/i", $songs);
+			$str = preg_escape($search);
+			$songs = array_rtrim(preg_grep("/.*\/.*\/.*$str/i", $songs));
 		}
 	}
-	sort($songs);
+	$songs = array_rtrim($songs);
 	return $songs;
 }
 
 function get_albums_by_artist($artist) {
-	$albums = array();
-	if (is_dir("music/$artist")) {
-		$albums = findsubdirs("music/$artist");
-	}
-	array_shift($albums);
-	for ($i=0; $i<sizeof($albums); $i++) {
-		if (! has_files($albums[$i])) {
-			$albums[$i] = "";
-		} else {
-			$albums[$i] = preg_replace("/^music\//", "", $albums[$i]);
-			$albums[$i] = preg_replace("/\/$/", "", $albums[$i]);
-		}
-	}
-	sort($albums);
+	$str = preg_escape($artist);
+	$albums = array_rtrim(preg_grep("/^$str\//", @file("/var/lib/musica/albums")));
 	return $albums;
 }
 
 function get_songs_by_album($artist, $album="") {
-	$songs = array();
-	$images = array();
-	if (is_dir("music/$artist/$album")) {
-		if ($dir = opendir("music/$artist/$album")) {
-			while (($file = readdir($dir)) !== false){
-				if (visible($artist) && visible($album) && visible($file)) {
-					if (is_song("music/$artist/$album/$file")) {
-						array_push($songs, "$artist/$album/$file");
-					} elseif (exif_imagetype("music/$artist/$album/$file")) {
-						array_push($images, "music/$artist/$album/$file");
-					}
-				}
-			}
-			closedir($dir);
-		}
+	$str = "$artist/$album";
+	if ($album) {
+		$str .= "/";
 	}
-	sort($songs);
-	return array($songs, $images);
+	$str = preg_escape($str);
+	$songs = array_rtrim(preg_grep("/^$str/", @file("/var/lib/musica/songs")));
+	return $songs;
 }
 
-function get_songs_by_artist($artist) {
-	$songs = array();
-	$images = array();
-	list($s, $images) = get_songs_by_album($artist);
-	for ($i=0; $i<sizeof($s); $i++) {
-		list($artist, $album, $song) = split3($s[$i]);
-		if (!$search || preg_match("/$search/", $song)) {
-			array_push($songs, $s[$i]);
-		}
-	}
-	$albums = get_albums_by_artist($artist);
-	for ($i=0; $i<sizeof($albums); $i++) {
-		list($artist, $album) = split2($albums[$i]);
-		list($s, $images) = get_songs_by_album($artist, $album);
-		for ($j=0; $j<sizeof($s); $j++) {
-			list($artist, $album, $song) = split3($s[$j]);
-			if (!$search || preg_match("/$search/i", $song)) {
-				array_push($songs, $s[$j]);
-			}
-		}
-	}
-	sort($songs);
+function get_images_by_album($artist, $album="") {
+	$str = preg_escape("$artist/$album/");
+	$images = array_rtrim(preg_grep("/^$str/", @file("/var/lib/musica/images")));
+	return $images;
+}
+
+function get_misc_songs_by_artist($artist) {
+	$str = "$artist/";
+	$songs = array_rtrim(preg_grep("/^$str/", @file("/var/lib/musica/songs")));
+	// Prune those that are part of albums
+	$songs = array_rtrim(preg_grep("/\/.*\//", $songs, PREG_GREP_INVERT));
 	return $songs;
 }
 
 function get_size_of_album($artist, $album) {
 	$songs = array();
-	$images = array();
-	list($songs, $images) = get_songs_by_album($artist, $album);
+	$songs = get_songs_by_album($artist, $album);
 	$size = 0;
 	for ($i=0; $i<sizeof($songs); $i++) {
 		$size += filesize("music/$songs[$i]");
@@ -283,20 +289,6 @@ function get_size_of_album($artist, $album) {
 	/* Conservative size estimate in MB */
         $size = round($size/1000/1000);
 	return "~$size MB";
-}
-
-function get_random_artist() {
-	$artists = get_all_artists();
-	$artist = $artists[rand(0, sizeof($artists) - 1)];
-	$artist = preg_replace("/\\\'/", "'", $artist);
-	return $artist;
-}
-
-function get_random_album() {
-	$artists = get_all_albums();
-	$album = $albums[rand(0, sizeof($albums) - 1)];
-	$album = preg_replace("/\\\'/", "'", $album);
-	return $album;
 }
 
 function get_counts() {
@@ -356,6 +348,14 @@ function print_artists($search="") {
 	}
 }
 
+function print_song_header($artist, $album) {
+	print("<center><table><tr><td><p align=left><img src=silk/group.png>&nbsp;<b><big>$artist</b></big><br><img src=silk/cd.png>&nbsp;<b>$album</b><br>\n");
+	$wiki = preg_replace("/\s*\(.*/", "", $album);
+	$wiki = urlencode($wiki);
+	$wiki = preg_replace("/\+/", "_", $wiki);
+	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=silk/book_open.png border=0> Wikipedia</a><br></p></td></tr></table></center>");
+}
+
 function print_albums_by_artist($artist) {
 	$albums = get_albums_by_artist($artist);
 	print("<p align=center><img src=silk/group.png>&nbsp;<big><b>$artist</b></big><br>");
@@ -376,7 +376,6 @@ function print_albums_by_artist($artist) {
 
 function print_albums_by_search($search) {
 	$albums = get_all_albums($search);
-	print("<center><big><b>Matching Artists or Albums</b></big></center><ol>");
 	print("<ol>");
 	for ($i=0; $i<sizeof($albums); $i++) {
 		list($artist, $album) = split2(rtrim($albums[$i]));
@@ -387,12 +386,9 @@ function print_albums_by_search($search) {
 
 function print_songs_by_album($artist, $album) {
 	global $JPLAYER_LIST, $JPLAYER_OGG;
-	print("<p align=center><img src=silk/group.png>&nbsp;<b><big>$artist</b></big><br><img src=silk/cd.png>&nbsp;<b>$album</b><br>\n");
-	$wiki = preg_replace("/\s*\(.*/", "", $album);
-	$wiki = urlencode($wiki);
-	$wiki = preg_replace("/\+/", "_", $wiki);
-	print("<a target=_new href=http://en.wikipedia.org/wiki/$wiki><img width=16 heigh=16 src=silk/book_open.png border=0> Wikipedia</a><br></p>");
-	list($songs, $images) = get_songs_by_album($artist, $album);
+	print_song_header($artist, $album);
+	$songs = get_songs_by_album($artist, $album);
+	$images = get_images_by_album($artist, $album);
 	print_album_cover($images, "$artist/$album");
 	for ($i=0; $i<sizeof($songs); $i++) {
 		list($artist, $album, $song) = split3($songs[$i]);
@@ -412,8 +408,7 @@ function print_songs_by_album($artist, $album) {
 function print_misc_songs_by_artist($artist) {
 	global $JPLAYER_LIST, $JPLAYER_OGG, $_SERVER;
 	print("<center><img src=silk/group.png>&nbsp;<big><b>$artist</b></big><br><img src=silk/music.png>&nbsp;<b>Miscellaneous</b></center><br>");
-	list($songs, $images) = get_songs_by_album($artist);
-	print_album_cover($images, $artist);
+	$songs = get_misc_songs_by_artist($artist);
 	for ($i=0; $i<sizeof($songs); $i++) {
 		list($artist, $album, $song) = split3($songs[$i]);
 		print_song($artist, $album, $song);
@@ -445,35 +440,18 @@ function print_songs_by_search($search) {
 
 function print_album_cover($images, $dir) {
 	$width = 200;
-	$js = "src = [";
-	for ($i=0; $i<sizeof($images); $i++) {
-		if ($i > 0) {
-			$js .= ",";
+	if (sizeof($images) >= 1) {
+		$max_size = 0;
+		# Uses the largest (presumably the best?) image
+		for ($i=0; $i<sizeof($images); $i++) {
+			$this_size = filesize("music/$images[$i]");
+			if ($this_size > $max_size) {
+				$img = "<center><img name=albumart width=$width src='music/$images[$i]'></center><br>";
+				$max_size = $this_size;
+			}
 		}
-		$js .= "'" . $images[$i] . "'";
-	}
-	$js .= "]";
-	if ($i>= 1) {
-		# From http://www.javascriptkit.com/script/script2/incrementslide.shtml
-		print("
-<script>
-" . $js . "
-pics=[]; i=0;
-function switch_pic() {
-  var n=(i+1)%src.length;
-  if (pics[n] && (pics[n].complete || pics[n].complete==null)) {
-    document['albumart'].src = pics[i=n].src;
-  }
-  pics[n=(i+1)%src.length] = new Image;
-  pics[n].src = src[n];
-  setTimeout('switch_pic()',4000);
-} onload = function(){
-  if (document.images)
-    switch_pic();
-}
-</script>");
-		$img = "<center><img name=albumart width=$width src='$images[0]'></center><br>";
 	} else {
+		# BUG: We really need to cache these
 		$tmp = "/var/lib/musica/tmp";
 		$output = `eyeD3 -i $tmp "/usr/share/musica/music/$dir" 2>&1`;
 		$output = preg_replace("/.*Writing /", "", $output);
@@ -617,9 +595,6 @@ if ($artist == "_all") {
 /*************************************************************************/
 /* Album Frame: Display list of albums */
 if ($artist && !$album && !$misc && !$playlist && !$download_album) {
-	if ($artist == "_random") {
-		$artist = get_random_artist();
-	}
 	print_albums_by_artist($artist);
 	exit;
 }
@@ -682,10 +657,10 @@ if ($playlist) {
 		array_push($songs, "$artist/$album/$song");
 		$filename = urlencode($artist) . "_" . urlencode($album) . "_" . urlencode($song) . ".m3u";
 	} elseif ($album) {
-		list($songs, $images) = get_songs_by_album($artist, $album);
+		$songs = get_songs_by_album($artist, $album);
 		$filename = urlencode($artist) . "_" . urlencode($album) . ".m3u";
 	} elseif ($artist) {
-		$songs = get_songs_by_artist($artist);
+		$songs = get_misc_songs_by_artist($artist);
 		$filename = urlencode($artist) . ".m3u";
 	}
 	header("Content-type: application/download");

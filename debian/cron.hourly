@@ -12,6 +12,12 @@ chmod 644 $f
 mv -f "$f" /var/lib/$PKG/songs
 wc -l /var/lib/$PKG/songs | awk '{print $1}' > /var/lib/$PKG/songs.count
 
+# Get Images
+find . -type f -iname "*.jpg" -o -iname "*.gif" -o -iname "*.png" -o -iname "*.tif" | sed "s:^\./::" | sort -u > $f
+chmod 644 $f
+mv -f "$f" /var/lib/$PKG/images
+wc -l /var/lib/$PKG/images | awk '{print $1}' > /var/lib/$PKG/images.count
+
 # Get Albums
 find . -type d | sed "s:^\./::" | grep "/" | sort -u > $f
 chmod 644 $f

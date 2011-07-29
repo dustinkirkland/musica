@@ -10,6 +10,10 @@ musica (2.16) unreleased; urgency=low
     - improve random artist/album/song support
     - drop the ratings support; don't really have a good, persistent place
       to store this
+  * debian/cron.hourly, index.php:
+    - fix image loading
+    - improve performance
+    - cache image list too
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 12 Mar 2011 05:55:54 +0000
 
