@@ -1,4 +1,4 @@
-musica (2.16) unreleased; urgency=low
+musica (2.16-0ubuntu1) oneiric; urgency=low
 
   * debian/cron.hourly, index.php: LP: #622294
     - VASTLY improve album and song search performance by using the cache
@@ -17,7 +17,7 @@ musica (2.16) unreleased; urgency=low
   * index.php:
     - fix popout, move control icons to top of song window
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 12 Mar 2011 05:55:54 +0000
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 28 Jul 2011 20:23:14 -0500
 
 musica (2.15-0ubuntu1) natty; urgency=low
 
