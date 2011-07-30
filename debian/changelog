@@ -1,4 +1,4 @@
-musica (2.17) unreleased; urgency=low
+musica (2.17-0ubuntu1) oneiric; urgency=low
 
   [ Serge Hallyn ]
   * debian/cron.hourly: add -L to find options to support symlinks under
@@ -13,7 +13,7 @@ musica (2.17) unreleased; urgency=low
   * debian/control, index.php:
     - remove that nasty backtick call to eyeD3, use php-id3 instead
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 28 Jul 2011 20:23:17 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 29 Jul 2011 19:38:42 -0500
 
 musica (2.16-0ubuntu1) oneiric; urgency=low
 
