@@ -1,6 +1,7 @@
 musica (2.19) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/postinst:
+    - immediately run an update
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 29 Jul 2011 23:56:28 -0500
 
