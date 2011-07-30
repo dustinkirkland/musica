@@ -1,9 +1,9 @@
-musica (2.19) unreleased; urgency=low
+musica (2.19-0ubuntu1) oneiric; urgency=low
 
   * debian/postinst:
     - immediately run an update
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 29 Jul 2011 23:56:28 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 30 Jul 2011 11:15:22 -0500
 
 musica (2.18-0ubuntu1) oneiric; urgency=low
 
