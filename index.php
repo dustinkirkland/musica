@@ -288,7 +288,9 @@ function get_images_by_album($artist, $album="") {
 			} else {
 				$cover = null;
 			}
-			array_push($images, "<center><img width=200 src=data:image/gif;base64," . base64_encode($cover) . "></center><br>");
+			if ($cover) {
+				array_push($images, "<center><img width=200 src=data:image/gif;base64," . base64_encode($cover) . "></center><br>");
+			}
 		}
 	}
 	return $images;

@@ -1,6 +1,7 @@
 musica (2.18) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php:
+    - don't print broken images
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 29 Jul 2011 19:38:45 -0500
 
