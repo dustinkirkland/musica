@@ -11,11 +11,11 @@ Package: musica
 Architecture: all
 Depends: ${misc:Depends},
  apache2,
- eyed3,
  famfamfam-silk,
  jplayer,
  libapache2-mod-php5,
- libjs-jquery
+ libjs-jquery,
+ php-getid3
 Description: a web application for browsing and listening to your music
  Musica is a web application for browsing and listening to your music. Songs
  are organized hierarchically in folders of Artists, and sub-folders of Albums.

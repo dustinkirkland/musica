@@ -20,6 +20,8 @@
 
 */
 
+require_once('/usr/share/php-getid3/getid3.php');
+
 /* A list of file formats we will recognize */
 $FORMATS = array("mp3", "m4a", "oga", "ogg", "wav", "flac");
 $JPLAYER_LIST = "";
@@ -262,12 +264,33 @@ function get_songs_by_album($artist, $album="") {
 	}
 	$str = preg_escape($str);
 	$songs = array_rtrim(preg_grep("/^$str/", @file("/var/lib/musica/songs")));
+/*
+	if (sizeof(preg_grep("/^[0-9]/", $songs)) < 1) {
+		$songs = sort_by_id3_tags($songs);
+	}
+*/
 	return $songs;
 }
 
 function get_images_by_album($artist, $album="") {
 	$str = preg_escape("$artist/$album/");
 	$images = array_rtrim(preg_grep("/^$str/", @file("/var/lib/musica/images")));
+	if (sizeof($images) < 1) {
+		$songs = scandir("music/$artist/$album/");
+		for ($i=0; $i<sizeof($songs); $i++) {
+			if ($songs[$i] == "." || $songs[$i] == "..") { continue; }
+			$getID3 = new getID3;
+			$getID3->analyze("music/$artist/$album/$songs[$i]");
+			if (isset($getID3->info['id3v2']['APIC'][0]['data'])) {
+				$cover = $getID3->info['id3v2']['APIC'][0]['data'];
+			} elseif (isset($getID3->info['id3v2']['PIC'][0]['data'])) {
+				$cover = $getID3->info['id3v2']['PIC'][0]['data'];
+			} else {
+				$cover = null;
+			}
+			array_push($images, "<center><img width=200 src=data:image/gif;base64," . base64_encode($cover) . "></center><br>");
+		}
+	}
 	return $images;
 }
 
@@ -321,6 +344,7 @@ function print_album($artist, $album, $with_artist=0) {
 		}
 	}
 }
+
 
 function print_song($artist, $album, $song) {
 	global $PREAMBLE, $JPLAYER_LIST, $JPLAYER_OGG;
@@ -397,7 +421,7 @@ function print_songs_by_album($artist, $album) {
 	print_song_header($artist, $album);
 	$songs = get_songs_by_album($artist, $album);
 	$images = get_images_by_album($artist, $album);
-	print_album_cover($images, "$artist/$album");
+	print_album_cover($images);
 	for ($i=0; $i<sizeof($songs); $i++) {
 		list($artist, $album, $song) = split3($songs[$i]);
 		print_song($artist, $album, $song);
@@ -437,27 +461,23 @@ function print_songs_by_search($search) {
 	print("</ol>");
 }
 
-function print_album_cover($images, $dir) {
+function print_album_cover($images) {
 	$width = 200;
 	if (sizeof($images) >= 1) {
 		$max_size = 0;
 		# Uses the largest (presumably the best?) image
 		for ($i=0; $i<sizeof($images); $i++) {
-			$this_size = filesize("music/$images[$i]");
-			if ($this_size > $max_size) {
-				$img = "<center><img name=albumart width=$width src='music/$images[$i]'></center><br>";
-				$max_size = $this_size;
+			if (preg_match("/^<center>/", $images[$i])) {
+				$this_size = strlen($images[$i]);
+				$this_img = $images[$i];
+			} else {
+				$this_size = filesize("music/$images[$i]");
+				$this_img = "<center><img name=albumart width=$width src='music/$images[$i]'></center><br>";
 			}
-		}
-	} else {
-		# BUG: We really need to cache these
-		$tmp = "/var/lib/musica/tmp";
-		$output = `eyeD3 -i $tmp "/usr/share/musica/music/$dir" 2>&1`;
-		$output = preg_replace("/.*Writing /", "", $output);
-		list($filename, $rest) = preg_split("/\.\.\./", $output);
-		if (file_exists($filename)) {
-			$img = "<center><img width=$width src=data:image/gif;base64," . base64_encode(file_get_contents("$filename")) . $img . "></center><br>";
-			unlink($filename);
+			if ($this_size > $max_size) {
+				$max_size = $this_size;
+				$img = $this_img;
+			}
 		}
 	}
 	print($img);

@@ -10,6 +10,8 @@ musica (2.17) unreleased; urgency=low
       gets fixed
   * debian/cron.hourly, index.php, jplayer.php:
     - partial support for m4a
+  * debian/control, index.php:
+    - remove that nasty backtick call to eyeD3, use php-id3 instead
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 28 Jul 2011 20:23:17 -0500
 
