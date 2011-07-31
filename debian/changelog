@@ -1,6 +1,9 @@
 musica (2.20) unreleased; urgency=low
 
-  * UNRELEASED
+  * jplayer2.php:
+    - added a jplayer2.php, which works with jplayer2; jplayer2 can't
+      land in Ubuntu yet because the flash won't build from source
+      using haxe; flash is required for mp3 support in Firefox 
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 30 Jul 2011 11:15:26 -0500
 
