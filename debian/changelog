@@ -3,7 +3,9 @@ musica (2.20) unreleased; urgency=low
   * jplayer2.php:
     - added a jplayer2.php, which works with jplayer2; jplayer2 can't
       land in Ubuntu yet because the flash won't build from source
-      using haxe; flash is required for mp3 support in Firefox 
+      using haxe; flash is required for mp3 support in Firefox
+  * debian/cron.hourly: LP: #888218
+    - ensure that the music directory exists, before indexing it
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 30 Jul 2011 11:15:26 -0500
 

@@ -4,7 +4,12 @@ PKG=musica
 DIR=/usr/share/$PKG/music
 f=$(mktemp)
 
-cd "$DIR"
+if [ -d "$DIR" ]; then
+	cd "$DIR"
+else
+	echo "ERROR: [$DIR] does not exist" 1>&2
+	exit 1
+fi
 
 # Get Songs
 find -L . -type f -iname "*.mp3" -o -iname "*.m4a" -o -iname "*.oga" -o -iname "*.ogg" -o -iname "*.wav" -o -iname "*.flac" | sed "s:^\./::" | sort -u > $f
