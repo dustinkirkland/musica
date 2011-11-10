@@ -1,3 +1,9 @@
+musica (2.22) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 10 Nov 2011 15:34:45 -0600
+
 musica (2.21-0ubuntu1) precise; urgency=low
 
   * debian/cron.hourly: LP: #888218
