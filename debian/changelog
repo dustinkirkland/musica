@@ -1,6 +1,7 @@
 musica (2.21) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/cron.hourly: LP: #888218
+    - exit on errors
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 10 Nov 2011 10:13:22 -0600
 
