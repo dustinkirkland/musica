@@ -1,9 +1,9 @@
-musica (2.21) unreleased; urgency=low
+musica (2.21-0ubuntu1) precise; urgency=low
 
   * debian/cron.hourly: LP: #888218
     - exit on errors
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 10 Nov 2011 10:13:22 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 10 Nov 2011 15:34:41 -0600
 
 musica (2.20-0ubuntu1) precise; urgency=low
 
