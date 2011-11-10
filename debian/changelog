@@ -1,4 +1,4 @@
-musica (2.20) unreleased; urgency=low
+musica (2.20-0ubuntu1) precise; urgency=low
 
   * jplayer2.php:
     - added a jplayer2.php, which works with jplayer2; jplayer2 can't
@@ -7,7 +7,7 @@ musica (2.20) unreleased; urgency=low
   * debian/cron.hourly: LP: #888218
     - ensure that the music directory exists, before indexing it
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 30 Jul 2011 11:15:26 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 10 Nov 2011 10:13:20 -0600
 
 musica (2.19-0ubuntu1) oneiric; urgency=low
 
