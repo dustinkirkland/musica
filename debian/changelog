@@ -4,6 +4,8 @@ musica (2.22) unreleased; urgency=low
     - note the musica cache rebuild with an echo
     - don't background this (ie, block on it completing)
     - musica is not really functional until the index has run
+  * debian/cron.hourly:
+    - soften to a warning, exit zero when music dir doesn't exist
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 10 Nov 2011 15:34:45 -0600
 

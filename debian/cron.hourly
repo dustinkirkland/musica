@@ -7,8 +7,8 @@ f=$(mktemp)
 if [ -d "$DIR" ]; then
 	cd "$DIR"
 else
-	echo "ERROR: [$DIR] does not exist" 1>&2
-	exit 1
+	echo "WARNING: [$DIR] does not exist" 1>&2
+	exit 0
 fi
 
 # Get Songs
