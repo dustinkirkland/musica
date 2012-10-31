@@ -1,4 +1,4 @@
-musica (2.22) unreleased; urgency=low
+musica (2.22-0ubuntu1) raring; urgency=low
 
   * debian/postinst:
     - note the musica cache rebuild with an echo
@@ -13,7 +13,7 @@ musica (2.22) unreleased; urgency=low
   * debian/control, debian/copyright:
     - fix lintian warnings
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 31 Oct 2012 17:22:12 +0100
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 31 Oct 2012 17:29:49 +0100
 
 musica (2.21-0ubuntu1) precise; urgency=low
 
