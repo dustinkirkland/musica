@@ -6,6 +6,8 @@ musica (2.22) unreleased; urgency=low
     - musica is not really functional until the index has run
   * debian/cron.hourly:
     - soften to a warning, exit zero when music dir doesn't exist
+  * debian/control:
+    - bump standards
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 10 Nov 2011 15:34:45 -0600
 
