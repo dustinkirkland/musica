@@ -16,7 +16,7 @@ Depends: ${misc:Depends},
  libapache2-mod-php5,
  libjs-jquery,
  php-getid3
-Description: a web application for browsing and listening to your music
+Description: web application for browsing and listening to your music
  Musica is a web application for browsing and listening to your music. Songs
  are organized hierarchically in folders of Artists, and sub-folders of Albums.
  The PHP script presents an interface for navigating among artists and albums.

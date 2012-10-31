@@ -10,6 +10,8 @@ musica (2.22) unreleased; urgency=low
     - bump standards
   * debian/control, debian/rules:
     - switch to simpler dh build
+  * debian/control, debian/copyright:
+    - fix lintian warnings
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 31 Oct 2012 17:22:12 +0100
 

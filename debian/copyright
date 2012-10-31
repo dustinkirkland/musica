@@ -50,3 +50,6 @@ License:
 The Ubuntu packaging:
  Copyright (C) 2008-2010 by Dustin Kirkland <dustin.kirkland@gmail.com>
  released under the GPL-3.
+
+ On Debian systems, the complete text of the GNU General Public
+ License, version 3, can be found in /usr/share/common-licenses/GPL-3.
