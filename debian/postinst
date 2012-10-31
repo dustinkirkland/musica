@@ -10,7 +10,8 @@ case "$1" in
 		chown www-data:www-data /var/lib/$package/tmp
 		a2ensite $package
 		invoke-rc.d $webserver reload
-		/etc/cron.hourly/musica &
+		echo "Rebuilding musica cache..."
+		/etc/cron.hourly/musica
 	;;
 	abort-upgrade|abort-remove|abort-deconfigure)
 	;;
