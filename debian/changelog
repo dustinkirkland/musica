@@ -1,9 +1,9 @@
-musica (2.23) unreleased; urgency=low
+musica (2.23-0ubuntu1) trusty; urgency=low
 
   * debian/postrm: LP: #1244293, #990900
     - purging might break, if site was already disabled
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 31 Oct 2012 17:29:52 +0100
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 15 Mar 2014 11:20:11 -0500
 
 musica (2.22-0ubuntu1) raring; urgency=low
 
