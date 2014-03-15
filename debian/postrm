@@ -5,7 +5,9 @@ set -e
 PKG="musica"
 case "$1" in
 	remove)
-		a2dissite $PKG
+		if [ -e "/etc/apache2/sites-enabled/${PKG}.conf" ]; then
+			a2dissite $PKG
+		fi
 	;;
 	purge)
 		rm -f /var/lib/$PKG/* /etc/$PKG/apache.conf

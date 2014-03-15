@@ -1,6 +1,7 @@
 musica (2.23) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/postrm: LP: #1244293, #990900
+    - purging might break, if site was already disabled
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 31 Oct 2012 17:29:52 +0100
 
