@@ -1,11 +1,11 @@
-musica (2.24) unreleased; urgency=medium
+musica (2.24-0ubuntu1) trusty; urgency=medium
 
   * debian/apache.conf => debian/musica.conf, debian/control,
     debian/install, debian/links, debian/postinst, debian/postrm:
     - bump standards version
     - fix package installations for LP: #1244293, #990900
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 15 Mar 2014 11:20:15 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 15 Mar 2014 21:16:03 -0500
 
 musica (2.23-0ubuntu1) trusty; urgency=low
 
