@@ -1,3 +1,9 @@
+musica (2.25) unreleased; urgency=medium
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 15 Mar 2014 21:16:09 -0500
+
 musica (2.24-0ubuntu1) trusty; urgency=medium
 
   * debian/apache.conf => debian/musica.conf, debian/control,
