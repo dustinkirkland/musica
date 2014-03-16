@@ -10,7 +10,8 @@ case "$1" in
 		fi
 	;;
 	purge)
-		rm -f /var/lib/$PKG/* /etc/$PKG/apache.conf
+		rm -f /var/lib/$PKG/* /etc/apache2/sites-available/${PKG}.conf
+		rm -rf /etc/$PKG/
 		[ -h /usr/share/$PKG/music ] && rm -f /usr/share/$PKG/music || true
 	;;
 esac

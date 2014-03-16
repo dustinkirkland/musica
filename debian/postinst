@@ -2,13 +2,13 @@
 
 set -e
 
-package="musica"
+PKG="musica"
 webserver="apache2"
 
 case "$1" in
 	configure)
-		chown www-data:www-data /var/lib/$package/tmp
-		a2ensite $package
+		chown www-data:www-data /var/lib/$PKG/tmp
+		a2ensite $PKG
 		invoke-rc.d $webserver reload
 		echo "Rebuilding musica cache..."
 		/etc/cron.hourly/musica

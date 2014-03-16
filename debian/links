@@ -1,4 +1,3 @@
-etc/musica/apache.conf etc/apache2/sites-available/musica
 usr/share/icons/silk/16x16 usr/share/musica/silk
 usr/share/jplayer/Jplayer.swf usr/share/musica/js/Jplayer.swf
 usr/share/jplayer/jquery.jplayer.js usr/share/musica/js/jquery.jplayer.js
