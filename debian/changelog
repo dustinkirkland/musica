@@ -1,6 +1,8 @@
 musica (2.25) unreleased; urgency=medium
 
-  * UNRELEASED
+  * debian/cron.hourly:
+    - name our temp directory
+    - use a trap to clean up temp file
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 15 Mar 2014 21:16:09 -0500
 

@@ -2,7 +2,8 @@
 
 PKG=musica
 DIR=/usr/share/$PKG/music
-f=$(mktemp)
+f=$(mktemp /tmp/musica-XXXXXXXX)
+trap "rm -f ${f} 2>/dev/null || true" EXIT HUP INT QUIT TERM
 
 if [ -d "$DIR" ]; then
 	cd "$DIR"
