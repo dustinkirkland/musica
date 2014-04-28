@@ -1,10 +1,10 @@
-musica (2.25) unreleased; urgency=medium
+musica (2.25-0ubuntu1) utopic; urgency=medium
 
   * debian/cron.hourly:
     - name our temp directory
     - use a trap to clean up temp file
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 15 Mar 2014 21:16:09 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 28 Apr 2014 09:52:59 -0700
 
 musica (2.24-0ubuntu1) trusty; urgency=medium
 
