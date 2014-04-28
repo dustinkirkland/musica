@@ -1,3 +1,9 @@
+musica (2.26) unreleased; urgency=medium
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 28 Apr 2014 09:53:04 -0700
+
 musica (2.25-0ubuntu1) utopic; urgency=medium
 
   * debian/cron.hourly:
