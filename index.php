@@ -236,22 +236,18 @@ function get_all_albums($search="") {
 }
 
 function get_all_songs($search="") {
-	$songs = @file("/var/lib/musica/songs");
+	$all_songs = @file("/var/lib/musica/songs");
 	if ($search) {
 		if ($search == "_random_") {
-			$song = $songs[rand(0, sizeof($songs) - 1)];
-			$songs = array($song);
-			list($artist, $album, $song) = split3($song);
-			print("
-				<script>
-					parent._artists.location.href='?search=" . urlencode($artist) . "&artist=_all';
-					parent._albums.location.href='?search=" . urlencode($album) . "&artist=_search&album=_search';
-				</script>
-			");
-			print_song_header($artist, $album, $search);
+			$songs = array();
+			for ($i=0; $i<200; $i++) {
+				$song = $all_songs[rand(0, sizeof($all_songs) - 1)];
+				array_push($songs, $song);
+			}
+			print_song_header("Random Artists", "Random Albums", $search);
 		} else {
 			$str = preg_escape($search);
-			$songs = array_rtrim(preg_grep("/.*\/.*\/.*$str/i", $songs));
+			$songs = array_rtrim(preg_grep("/.*\/.*\/.*$str/i", $all_songs));
 		}
 	}
 	$songs = array_rtrim($songs);
