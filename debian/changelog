@@ -1,6 +1,7 @@
 musica (2.26) unreleased; urgency=medium
 
-  * UNRELEASED
+  * index.php:
+    - fix syntax error
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 28 Apr 2014 09:53:04 -0700
 

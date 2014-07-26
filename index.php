@@ -175,7 +175,7 @@ body {font-size: 13px; font-family: verdana,arial,helvetica,sans-serif; font-wei
 <link rel="shortcut icon" href="/musica/favicon.ico" type="image/x-icon">
 </head>
 
-<?
+<?php
 }
 
 /*****************/
