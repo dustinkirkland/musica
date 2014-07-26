@@ -14,7 +14,7 @@
 if (isset($_REQUEST["popout"])) {
 	$autoplay = "true";
 } else {
-	$autoplay = "false";
+	$autoplay = "true";
 }
 ?>
 
