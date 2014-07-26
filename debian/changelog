@@ -1,4 +1,4 @@
-musica (2.26) unreleased; urgency=medium
+musica (2.26-0ubuntu1) utopic; urgency=medium
 
   * index.php:
     - fix syntax error
@@ -8,7 +8,7 @@ musica (2.26) unreleased; urgency=medium
   * jplayer.php:
     - let's autoplay
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 28 Apr 2014 09:53:04 -0700
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 26 Jul 2014 14:57:04 -0500
 
 musica (2.25-0ubuntu1) utopic; urgency=medium
 
