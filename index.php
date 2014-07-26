@@ -250,7 +250,6 @@ function get_all_songs($search="") {
 			$songs = array_rtrim(preg_grep("/.*\/.*\/.*$str/i", $all_songs));
 		}
 	}
-	$songs = array_rtrim($songs);
 	return $songs;
 }
 
