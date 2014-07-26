@@ -2,6 +2,7 @@ musica (2.26) unreleased; urgency=medium
 
   * index.php:
     - fix syntax error
+    - handle new location of getid3.php
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 28 Apr 2014 09:53:04 -0700
 

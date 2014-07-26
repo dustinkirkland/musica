@@ -20,7 +20,14 @@
 
 */
 
-require_once('/usr/share/php-getid3/getid3.php');
+if (file_exists('/usr/share/php-getid3/getid3.php')) {
+	require_once('/usr/share/php-getid3/getid3.php');
+} elseif (file_exists('/usr/share/php/getid3/getid3.php')) {
+	require_once('/usr/share/php/getid3/getid3.php');
+} else {
+	print("Required PHP module getid3 is not installed");
+	exit(1);
+}
 
 /* A list of file formats we will recognize */
 $FORMATS = array("mp3", "m4a", "oga", "ogg", "wav", "flac");
