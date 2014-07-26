@@ -1,3 +1,9 @@
+musica (2.27) unreleased; urgency=medium
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 26 Jul 2014 14:57:06 -0500
+
 musica (2.26-0ubuntu1) utopic; urgency=medium
 
   * index.php:
