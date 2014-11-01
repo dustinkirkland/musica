@@ -1,9 +1,9 @@
-musica (2.27) unreleased; urgency=medium
+musica (2.27-0ubuntu1) vivid; urgency=medium
 
   * index.php:
     - clean up a ton of undefined variable noise in the apache logs
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 26 Jul 2014 14:57:06 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 01 Nov 2014 17:02:57 -0500
 
 musica (2.26-0ubuntu1) utopic; urgency=medium
 
