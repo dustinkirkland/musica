@@ -38,7 +38,12 @@ if (file_exists("/etc/musica/config.php")) {
 	include("/etc/musica/config.php");
 }
 
-function sanity_check($string) {
+function sanity_check($list, $string) {
+	if (array_key_exists($string, $list)) {
+		$string = $list[$string];
+	} else {
+		return "";
+	}
 	$string = urldecode($string);
 	$string = stripslashes($string);
 	if (preg_match("/\.\.\//", $string)) {
@@ -140,22 +145,22 @@ function preg_escape($str) {
 	return preg_replace($patterns, $replace, $str);
 }
 
-$top = sanity_check($_REQUEST["top"]);
-$middle = sanity_check($_REQUEST["middle"]);
-$blank = sanity_check($_REQUEST["blank"]);
-$artist = sanity_check($_REQUEST["artist"]);
-$album = sanity_check($_REQUEST["album"]);
-$song = sanity_check($_REQUEST["song"]);
-$about = sanity_check($_REQUEST["about"]);
-$misc = sanity_check($_REQUEST["misc"]);
-$playlist = sanity_check($_REQUEST["playlist"]);
-$download_album = sanity_check($_REQUEST["download_album"]);
-$search = sanity_check($_REQUEST["search"]);
-$user = sanity_check($_SERVER["PHP_AUTH_USER"]);
-$pw = sanity_check($_SERVER["PHP_AUTH_PW"]);
+$top = sanity_check($_REQUEST, "top");
+$middle = sanity_check($_REQUEST, "middle");
+$blank = sanity_check($_REQUEST, "blank");
+$artist = sanity_check($_REQUEST, "artist");
+$album = sanity_check($_REQUEST, "album");
+$song = sanity_check($_REQUEST, "song");
+$about = sanity_check($_REQUEST, "about");
+$misc = sanity_check($_REQUEST, "misc");
+$playlist = sanity_check($_REQUEST, "playlist");
+$download_album = sanity_check($_REQUEST, "download_album");
+$search = sanity_check($_REQUEST, "search");
+$user = sanity_check($_SERVER, "PHP_AUTH_USER");
+$pw = sanity_check($_SERVER, "PHP_AUTH_PW");
 
 $PROTO = "http";
-if ($_SERVER["HTTPS"] == "on") {
+if (array_key_exists("HTTPS", $_SERVER) && $_SERVER["HTTPS"] == "on") {
 	$PROTO .= "s";
 }
 $PREAMBLE = "$PROTO://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["SCRIPT_NAME"]) . "/music/";

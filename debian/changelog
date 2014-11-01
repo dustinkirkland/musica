@@ -1,6 +1,7 @@
 musica (2.27) unreleased; urgency=medium
 
-  * UNRELEASED
+  * index.php:
+    - clean up a ton of undefined variable noise in the apache logs
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 26 Jul 2014 14:57:06 -0500
 
