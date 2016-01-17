@@ -13,7 +13,7 @@ Depends: ${misc:Depends},
  apache2,
  famfamfam-silk,
  jplayer,
- libapache2-mod-php5 | libapache2-mod-php7,
+ libapache2-mod-php5 | libapache2-mod-php7.0,
  libjs-jquery,
  php-getid3
 Description: web application for browsing and listening to your music
