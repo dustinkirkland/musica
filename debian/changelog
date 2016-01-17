@@ -1,6 +1,7 @@
 musica (2.28) unreleased; urgency=medium
 
-  * UNRELEASED
+  * debian/control:
+    - add php7.0 compatibility
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 01 Nov 2014 17:26:30 -0500
 
