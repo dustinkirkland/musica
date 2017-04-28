@@ -1,6 +1,9 @@
 musica (2.29) unreleased; urgency=medium
 
-  * UNRELEASED
+  [ Nishanth Aravamudan ]
+  * debian/control:
+  - modify php dependency to libapache2-mod-php rather than
+    specifically php7.0.
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 17 Jan 2016 14:10:27 +0100
 
