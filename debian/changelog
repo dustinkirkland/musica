@@ -1,8 +1,11 @@
-musica (2.30) unreleased; urgency=medium
+musica (2.30-0ubuntu1) eoan; urgency=medium
 
-  * UNRELEASED
+  [ Steve Langasek ]
+  * debian/control:
+    - Drop build-dependency on obsolete mtasc.
+    - Depend on libjs-jquery-jplayer instead of jplayer.  LP: #1169456.
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 28 Apr 2017 10:31:03 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 13 Jun 2019 08:05:41 -0500
 
 musica (2.29-0ubuntu1) artful; urgency=medium
 

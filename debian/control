@@ -3,7 +3,7 @@ Section: web
 Priority: optional
 Maintainer: Dustin Kirkland <kirkland@ubuntu.com>
 Standards-Version: 3.9.5
-Build-Depends: debhelper (>= 7), mtasc
+Build-Depends: debhelper (>= 7)
 Homepage: http://launchpad.net/musica
 Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/musica/main
 
@@ -12,7 +12,7 @@ Architecture: all
 Depends: ${misc:Depends},
  apache2,
  famfamfam-silk,
- jplayer,
+ libjs-jquery-jplayer,
  libapache2-mod-php5 | libapache2-mod-php,
  libjs-jquery,
  php-getid3
